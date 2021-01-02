@@ -24,8 +24,8 @@ export class World {
      */
     async setup(options) {
         const [defaultConfig, keyMap] = await Promise.all([
-            loaders.loadJSON(`${options.configPath || '/engine'}/config.json`),
-            loaders.loadJSON(`${options.keyMapPath || '/engine/input'}/keyMap.json`),
+            loaders.loadJSON(`${options.configPath || '/umengine'}/config.json`),
+            loaders.loadJSON(`${options.keyMapPath || '/umengine/input'}/keyMap.json`),
         ]);
         const config = Object.assign({}, defaultConfig, options.config);
         this.window = engine.core.Canvas.createHiDPICanvas(
