@@ -1,12 +1,12 @@
 {
-    "window": {
-        "title": "Game Engine",
-        "width": 640,
-        "height": 640,
-        "backgroundColor": "#000000"
-    },
-    "physics": {
-        "collisionResolver": "spatial"
-    },
-    "KeyEventRegister": "window"
+  "window": {
+    "title": "Game Engine",
+    "width": 640,
+    "height": 640,
+    "backgroundColor": "#000000"
+  },
+  "physics": {
+    "collisionResolver": "spatial"
+  },
+  "KeyEventRegister": "window"
 }
