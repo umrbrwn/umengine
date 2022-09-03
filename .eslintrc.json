@@ -1,0 +1,29 @@
+{
+  "extends": [
+    "airbnb-base",
+    "airbnb-typescript/base"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    // Disable new line requirement between class members
+    "lines-between-class-members": "off",
+    "@typescript-eslint/lines-between-class-members": "warn",
+
+    // Leading underscores can be used for private members that have public member with same name
+    "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+    
+    // Class member order is must
+    "@typescript-eslint/member-ordering": [
+      "error",
+      {
+        "default": [
+          "public-field", "protected-field", "private-field",
+          "public-constructor", "protected-constructor", "private-constructor", "constructor",
+          "public-method", "protected-method", "private-method"
+        ]
+      }
+    ]
+  }
+}

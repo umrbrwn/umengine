@@ -1,0 +1,29 @@
+{
+  "name": "umengine",
+  "version": "0.1.0",
+  "description": "umEngine is a 2D game engine for developing simple browser-based games. The motivation is to learn by coding.",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsup",
+    "build:dev": "tsup src/index.ts --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/umrbrwn/umengine.git"
+  },
+  "author": "umrbrwn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/umrbrwn/umengine/issues"
+  },
+  "homepage": "https://github.com/umrbrwn/umengine#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.23.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "tsup": "^6.2.3"
+  }
+}

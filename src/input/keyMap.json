@@ -1,13 +1,13 @@
 {
-    "UP": "ArrowUp",
-    "DOWN": "ArrowDown",
-    "LEFT": "ArrowLeft",
-    "RIGHT": "ArrowRight",
-    "W": "KeyW",
-    "A": "KeyA",
-    "S": "KeyS",
-    "D": "KeyD",
-    "SPACE": "Space",
-    "SHIFT_LEFT": "ShiftLeft",
-    "SHIFT_RIGHT": "ShiftRight"
+  "UP": "ArrowUp",
+  "DOWN": "ArrowDown",
+  "LEFT": "ArrowLeft",
+  "RIGHT": "ArrowRight",
+  "W": "KeyW",
+  "A": "KeyA",
+  "S": "KeyS",
+  "D": "KeyD",
+  "SPACE": "Space",
+  "SHIFT_LEFT": "ShiftLeft",
+  "SHIFT_RIGHT": "ShiftRight"
 }
