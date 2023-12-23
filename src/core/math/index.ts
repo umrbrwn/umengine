@@ -1,6 +1,3 @@
-import IVector2, { Vector2 } from './Vector2';
+import { Vector2H } from "./Vector2H";
 
-export {
-  IVector2,
-  Vector2,
-};
+export { Vector2H };

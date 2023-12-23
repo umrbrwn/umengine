@@ -1,10 +1,9 @@
-import Component from './Component';
-import { Vector2 } from '../math/Vector2';
+import Component from "./Component";
 
 /** Box collider component */
 export default class BoxCollider extends Component {
   /** Size of the box collider */
-  size = new Vector2();
+  size: Vector = { x: 0, y: 0 };
 
   /** X-offset from the X-position of the game object */
   offsetX = 0;
@@ -13,7 +12,7 @@ export default class BoxCollider extends Component {
   offsetY = 0;
 
   constructor(gameObject: IGameObject) {
-    super('boxCollider', gameObject);
+    super("boxCollider", gameObject);
     this.setDefaultSize();
   }
 
@@ -31,8 +30,8 @@ export default class BoxCollider extends Component {
   /** Centroid of the box collider */
   get center() {
     return {
-      x: (this.size.x / 2) + this.position.x,
-      y: (this.size.y / 2) + this.position.y,
+      x: this.size.x / 2 + this.position.x,
+      y: this.size.y / 2 + this.position.y,
     };
   }
 
@@ -102,9 +101,9 @@ export default class BoxCollider extends Component {
 
   /** Set size of collider to game object size */
   private setDefaultSize() {
-    this.size.set(
-      this.gameObject.transform.scale.x,
-      this.gameObject.transform.scale.y,
-    );
+    this.size = {
+      x: this.gameObject.transform.scale.x,
+      y: this.gameObject.transform.scale.y,
+    };
   }
 }

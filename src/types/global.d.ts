@@ -1,16 +1,7 @@
-import { math } from 'core';
-import * as components from 'core/components';
+import * as components from "core/components";
 
 declare global {
-  interface ITransform {
-    /** Position on the cartesian plane */
-    position: math.IVector2,
-
-    /** The size of the object */
-    scale: math.IVector2
-  }
-
-  /** Game object type */
+  /** Game object */
   interface IGameObject {
     /** Name of this game object */
     name: string;
@@ -44,7 +35,7 @@ declare global {
     postUpdate(): void;
   }
 
-  /** Game object type */
+  /** Physics body */
   interface IPhysicsBody {
     /** Attached game object */
     gameObject: IGameObject;

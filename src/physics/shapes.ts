@@ -1,5 +1,3 @@
-import IVector2 from 'core/math/Vector2';
-
 export class BoundingBox {
   /** Vertical midpoint (x + widthHalf) */
   readonly xm: number;
@@ -17,7 +15,7 @@ export class BoundingBox {
     public readonly x: number,
     public readonly y: number,
     public readonly width: number,
-    public readonly height: number,
+    public readonly height: number
   ) {
     this.widthHalf = width / 2;
     this.heightHalf = height / 2;
@@ -27,18 +25,18 @@ export class BoundingBox {
 }
 
 export interface ICircle {
-  center: IVector2;
+  center: Vector;
   radius: number;
 }
 
 export interface ILine {
-  initial: IVector2;
-  terminal: IVector2;
+  initial: Vector;
+  terminal: Vector;
 }
 
 export interface IRectangle {
-  topLeft: IVector2;
-  bottomRight: IVector2;
+  topLeft: Vector;
+  bottomRight: Vector;
   topEdge: ILine;
   rightEdge: ILine;
   bottomEdge: ILine;
