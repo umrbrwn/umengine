@@ -1,5 +1,4 @@
-import { createCollisionSystem } from './Factory';
+import createCollisionSystem from './Factory';
+import Collision from './collision/Collision';
 
-export {
-  createCollisionSystem,
-};
+export { createCollisionSystem, Collision };

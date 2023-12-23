@@ -1,21 +1,20 @@
-const PRESSED = 1;
-const RELEASED = 0;
+type KeyInputHandler = (pressed: boolean) => void;
 
 /** Keyboard input handlers and input state manager */
-export default class KeyboardState {
+export default class InputStateManager {
   /** Collection of input key states */
-  private keyStates = new Map();
+  private pressedKeys = new Map<string, boolean>();
 
   /** Input key code and event handler collection */
-  private keyMap = new Map();
+  private keyMap = new Map<string, KeyInputHandler>();
 
   /**
    * Add input handlers for key code
    * @param code key code from click event
-   * @param callback click handler callback
+   * @param handler click handler
    */
-  addMapping(code: string, callback: Function) {
-    this.keyMap.set(code, callback);
+  addMapping(code: string, handler: KeyInputHandler) {
+    this.keyMap.set(code, handler);
   }
 
   /**
@@ -29,23 +28,24 @@ export default class KeyboardState {
     }
 
     event.preventDefault();
-    const keyState = event.type === 'keydown' ? PRESSED : RELEASED;
 
-    if (this.keyStates.get(code) === keyState) {
+    const pressed = event.type === 'keydown';
+    if (this.pressedKeys.get(code) === pressed) {
       return;
     }
+    this.pressedKeys.set(code, pressed);
 
-    this.keyStates.set(code, keyState);
-    this.keyMap.get(code)(keyState);
+    // call key event handler
+    this.keyMap.get(code)!(pressed);
   }
 
   /**
-   * Add source of keyboard input events
+   * Add source of input events
    * @param source DOM element to act as input source
    */
   listenTo(source: HTMLElement) {
     ['keydown', 'keyup'].forEach((eventName) => {
-      source.addEventListener(eventName, (event) => this.handleEvent(event));
+      source.addEventListener(eventName, (event) => this.handleEvent(event as KeyboardEvent));
     });
   }
 }

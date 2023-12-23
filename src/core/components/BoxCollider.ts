@@ -1,73 +1,57 @@
-import Component from "./Component";
+import { Vector2H } from 'core/math';
 
 /** Box collider component */
-export default class BoxCollider extends Component {
+export default class BoxCollider implements IComponent, IRectangle {
+  readonly name: string;
+  enabled: boolean;
+
   /** Size of the box collider */
-  size: Vector = { x: 0, y: 0 };
+  scale: Vector;
 
-  /** X-offset from the X-position of the game object */
-  offsetX = 0;
+  /** Offset from the position of atom */
+  offset: Vector;
 
-  /** Y-offset from the Y-position of the game object */
-  offsetY = 0;
-
-  constructor(gameObject: IGameObject) {
-    super("boxCollider", gameObject);
-    this.setDefaultSize();
+  constructor(readonly atom: IAtom) {
+    this.name = BoxCollider.name;
+    this.scale = { ...atom.scale };
+    this.offset = Vector2H.zero();
+    this.enabled = true;
   }
 
-  /**
-   * Offsetted position with respect to the game object,
-   * defaults to the anchor position of the game object
-   */
+  /** Offsetted position relative to atom */
   get position() {
-    return {
-      x: this.gameObject.transform.position.x + this.offsetX,
-      y: this.gameObject.transform.position.y + this.offsetY,
-    };
+    return Vector2H.add(this.atom.position, this.offset);
   }
 
   /** Centroid of the box collider */
   get center() {
-    return {
-      x: this.size.x / 2 + this.position.x,
-      y: this.size.y / 2 + this.position.y,
-    };
+    return Vector2H.add(this.position, Vector2H.divScaler(this.scale, 2));
   }
 
-  /** Top left vertex of the box */
   get topLeft() {
-    return {
-      x: this.position.x,
-      y: this.position.y,
-    };
+    return this.position;
   }
 
   /** Top right vertex of the box */
   get topRight() {
     return {
-      x: this.position.x + this.size.x,
+      x: this.position.x + this.scale.x,
       y: this.position.y,
     };
   }
 
-  /** Bottom right vertex of the box */
   get bottomRight() {
-    return {
-      x: this.position.x + this.size.x,
-      y: this.position.y + this.size.y,
-    };
+    return Vector2H.add(this.position, this.scale);
   }
 
   /** Bottom left vertex of the box */
   get bottomLeft() {
     return {
       x: this.position.x,
-      y: this.position.y + this.size.y,
+      y: this.position.y + this.scale.y,
     };
   }
 
-  /** Top edge of the box */
   get topEdge() {
     return {
       initial: this.topLeft,
@@ -75,7 +59,6 @@ export default class BoxCollider extends Component {
     };
   }
 
-  /** Right edge of the box */
   get rightEdge() {
     return {
       initial: this.topRight,
@@ -83,7 +66,6 @@ export default class BoxCollider extends Component {
     };
   }
 
-  /** Bottom edge of the box */
   get bottomEdge() {
     return {
       initial: this.bottomRight,
@@ -91,19 +73,10 @@ export default class BoxCollider extends Component {
     };
   }
 
-  /** Left edge of the box */
   get leftEdge() {
     return {
       initial: this.bottomLeft,
       terminal: this.topLeft,
-    };
-  }
-
-  /** Set size of collider to game object size */
-  private setDefaultSize() {
-    this.size = {
-      x: this.gameObject.transform.scale.x,
-      y: this.gameObject.transform.scale.y,
     };
   }
 }

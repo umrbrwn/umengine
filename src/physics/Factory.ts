@@ -1,17 +1,12 @@
-/* eslint-disable import/prefer-default-export */
 import WorldContext from 'world/WorldContext';
-import SpatialCollision from './SpatialCollision';
+import SpatialCollision from './collision/SpatialCollision';
 
 /** Factory to create collision system */
-export function createCollisionSystem(name: string, context: WorldContext) {
-  let system;
+export default function createCollisionSystem(name: string, context: WorldContext) {
   switch (name) {
     case 'spatial':
-      system = new SpatialCollision(context);
-      break;
+      return new SpatialCollision(context);
     default:
-      system = null;
-      break;
+      throw new Error(`Collision system "${name}" not found.`);
   }
-  return system;
 }

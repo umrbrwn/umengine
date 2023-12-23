@@ -1,4 +1,5 @@
-export class BoundingBox {
+/** Axis Aligned Bounding Box */
+export default class BoundingBox {
   /** Vertical midpoint (x + widthHalf) */
   readonly xm: number;
 
@@ -22,23 +23,4 @@ export class BoundingBox {
     this.xm = x + this.widthHalf;
     this.ym = y + this.heightHalf;
   }
-}
-
-export interface ICircle {
-  center: Vector;
-  radius: number;
-}
-
-export interface ILine {
-  initial: Vector;
-  terminal: Vector;
-}
-
-export interface IRectangle {
-  topLeft: Vector;
-  bottomRight: Vector;
-  topEdge: ILine;
-  rightEdge: ILine;
-  bottomEdge: ILine;
-  leftEdge: ILine;
 }

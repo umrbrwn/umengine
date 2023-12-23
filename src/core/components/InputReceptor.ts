@@ -1,14 +1,19 @@
-import Component from './Component';
-
 /** Input receptor that buffers inputs */
-export default class InputReceptor extends Component {
-  /** List of inputs buffered */
-  private buffer = new Set();
+export default class InputReceptor implements IComponent, IComponent {
+  readonly name: string;
+  enabled: boolean;
 
-  private downBuffer = new Set();
+  /** Input keys buffered */
+  private buffer: Set<string>;
 
-  constructor(gameObject: IGameObject) {
-    super('input', gameObject);
+  /** Input keys that are currently down */
+  private downBuffer: Set<string>;
+
+  constructor(readonly atom: IAtom) {
+    this.name = InputReceptor.name;
+    this.buffer = new Set<string>();
+    this.downBuffer = new Set<string>();
+    this.enabled = true;
   }
 
   /**

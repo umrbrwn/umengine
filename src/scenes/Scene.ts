@@ -1,49 +1,52 @@
-import WorldContext from 'world/WorldContext';
-import * as physics from 'physics/index';
-import Collision from 'physics/Collision';
 import LayerManager from './LayerManager';
+import { SpriteRenderer } from 'core/components';
+import { createCollisionSystem, Collision } from 'physics';
+import WorldContext from 'world/WorldContext';
 
-/** Scene that is run on collection of game objects */
+/** Scene that is run on collection of atoms */
 export default class Scene {
-  /** Name used to identify in the SceneManager */
-  readonly name: string;
-
-  /** Used to render scene and its layers in the main view */
-  context: WorldContext;
-
   /** Organize layers and their ordering */
-  layerManager: LayerManager;
+  private readonly layerManager: LayerManager;
 
   /** Collision system */
-  collision: Collision;
+  private readonly collision: Collision;
 
-  constructor(name: string, context: WorldContext) {
-    this.name = name;
-    this.context = context;
+  /** All the atoms loaded in the scene */
+  private atoms: IAtom[];
+
+  constructor(
+    /** Name used to identify in the SceneManager */
+    readonly name: string,
+
+    /** Used to render scene and its layers in the main view */
+    readonly context: WorldContext
+  ) {
     this.layerManager = new LayerManager(context.config);
-    // eslint-disable-next-line max-len
-    this.collision = physics.createCollisionSystem(context.config.physics.collisionResolver, context);
+    this.collision = createCollisionSystem(context.config.physics.collider, context)!;
+    this.atoms = [];
   }
 
   /** Update the state of scene and objects attached to the scene */
   update() {
     this.updatePhysics();
     this.updateGameLogic();
-    this.postUpdateGameLogic();
     this.render();
   }
 
-  /**
-   * Add a game object in the scene
-   * @param object game object to add
-   */
-  addObject(object: IGameObject) {
-    if (this.layerManager.addObject(object)) {
-      if (object.physicBody) {
-        this.collision.addBody(object.physicBody);
-      }
-      object.start();
+  /** Add an atom to the scene */
+  addItem(atom: IAtom) {
+    const renderer = atom.components.get<SpriteRenderer>(SpriteRenderer.name);
+    if (atom.layer && renderer) {
+      this.layerManager.addItem(renderer, atom.layer);
     }
+
+    const hasCollider = atom.components.query((component) => component.name.endsWith('Collider'));
+    if (hasCollider?.length) {
+      this.collision.addBody(atom);
+    }
+
+    this.atoms.push(atom);
+    atom.setup();
   }
 
   /** Update physics state of all the physics bodies */
@@ -53,26 +56,22 @@ export default class Scene {
 
   /** Update state of all the objects with provide context */
   private updateGameLogic() {
-    this.layerManager.layers.forEach((layer) => {
-      layer.objects.forEach((object) => object.update(this.context));
-    });
-  }
-
-  /** Post update state of all the objects with provide context */
-  private postUpdateGameLogic() {
-    this.layerManager.layers.forEach((layer) => {
-      layer.objects.forEach((object) => object.postUpdate(this.context));
-    });
+    this.atoms.forEach((atom) => atom.update());
+    this.atoms.forEach((atom) => atom.postUpdate());
   }
 
   /** Render scene layers and compose them in the main renderer */
   private render() {
     // do the depth sorting of renderable objects
-    this.layerManager.layers.forEach((layer) => layer.sortDepth());
+    // this.layerManager.layers.forEach((layer) => layer.sortDepth());
     // clear the main rendering canvas
-    // eslint-disable-next-line max-len
-    this.context.renderer.clearRect(0, 0, this.context.renderer.canvas.width, this.context.renderer.canvas.height);
+    this.context.renderingContext.clearRect(
+      0,
+      0,
+      this.context.renderingContext.canvas.width,
+      this.context.renderingContext.canvas.height
+    );
     // compose all the layers
-    this.layerManager.layers.forEach((layer) => layer.render(this.context.renderer));
+    this.layerManager.layers.forEach((layer) => layer.render(this.context.renderingContext));
   }
 }

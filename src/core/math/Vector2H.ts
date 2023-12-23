@@ -38,7 +38,7 @@ export abstract class Vector2H {
   /** Calculate normalized vector */
   static normalize(v: Vector): Vector {
     const mag = this.magnitude(v);
-    return mag > 0 ? this.divScaler(v, mag) : { x: 0, y: 0 };
+    return mag > 0 ? this.divScaler(v, mag) : this.zero();
   }
 
   /** Dot product of two vectors */
@@ -49,5 +49,10 @@ export abstract class Vector2H {
   /** Check if vectors are equal */
   static equal(u: Vector, v: Vector): boolean {
     return u.x === v.x && u.y === v.y;
+  }
+
+  /** Creates zero vector */
+  static zero() {
+    return { x: 0, y: 0 };
   }
 }

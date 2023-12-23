@@ -1,5 +1,3 @@
 import sceneManager from './sceneManager';
 
-export {
-  sceneManager,
-};
+export { sceneManager };

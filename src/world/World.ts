@@ -1,41 +1,36 @@
-import InputManager from 'input/InputManager';
-import Canvas from 'graphics/Canvas';
-import * as loaders from '../util/loaders';
 import WorldContext from './WorldContext';
+import { InputBridge } from 'input';
+import * as loaders from '../util/loaders';
+import { createHiDPICanvas } from 'graphics/Factory';
 
-/**
- * Game world that contains engine configuration, context, and sub systems
- * such as input manager, rendering canvas and audio
- */
 export default class World {
-  /** Game window to render scenes on */
+  /** Main rendering window */
   window: HTMLCanvasElement;
 
-  /** Game world context */
-  context: WorldContext;
+  /** Global context */
+  private readonly context: WorldContext;
 
-  /** Attaching game window as input source to the input manager */
-  inputManager: InputManager;
+  /** Attaching main window as the input source */
+  private readonly inputBridge: InputBridge;
 
   constructor() {
     this.context = new WorldContext();
-    this.inputManager = new InputManager(window);
+    this.inputBridge = new InputBridge(this.window);
   }
 
   /**
    * Setup game engine
    * @param options engine start up configurations and context details
    */
-  async setup(options: any) {
+  async setup(canvas: HTMLCanvasElement, options: { configPath: string; keyMapPath: string; config: Config }) {
     const [defaultConfig, keyMap] = await Promise.all([
       loaders.loadJSON(`${options.configPath || '/umengine'}/config.json`),
-      loaders.loadJSON(`${options.keyMapPath || '/umengine/input'}/keyMap.json`),
+      loaders.loadJSON(`${options.keyMapPath || '/umengine'}/keyMap.json`),
     ]);
     const config = { ...defaultConfig, ...options.config };
-    // eslint-disable-next-line max-len
-    this.window = Canvas.createHiDPICanvas(config.window.width, config.window.height, options.canvas);
+    this.window = createHiDPICanvas(config.window.width, config.window.height, canvas);
     this.context.config = config;
-    this.context.renderer = this.window.getContext('2d')!;
-    this.inputManager.setKeyMapping(keyMap);
+    this.context.renderingContext = this.window.getContext('2d')!;
+    this.inputBridge.setup(keyMap);
   }
 }

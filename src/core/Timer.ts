@@ -2,6 +2,7 @@
 export default class Timer {
   update: Function;
 
+  // TODO: check if deltaTime can be non-static
   /** Time difference between two frame updates */
   private static deltaTime: number;
 

@@ -1,46 +1,42 @@
-/**
- * Event emitter object that registers listeners of system events
- * and provides api to emit events which call the registered listeners
- */
-export class EventEmitter {
+type EventListener = (event: any) => void;
+type EventListeners = Map<Symbol, EventListener>;
+
+const generateRandomId = () => Symbol(Math.floor(Math.random() * 100000) + 1);
+
+export default class EventEmitter {
   /**
    * List of events and their listeners, each event has a unique
    * name which can have more than one listeners
    */
-  events = new Map();
+  events = new Map<string, EventListeners>();
 
-  /**
-   * Bind callbacks to the events
-   * @param eventName name of the event
-   * @param listener event handling callback or listeners
-   */
-  on(eventName: string, listener: Function) {
+  /** Add listener to an event */
+  on(eventName: string, listener: EventListener) {
     if (!this.events.has(eventName)) {
-      this.events.set(eventName, []);
+      this.events.set(eventName, new Map());
     }
-    this.events.get(eventName).push(listener);
+    const listenerId = generateRandomId();
+    this.events.get(eventName)!.set(listenerId, listener);
+    return listenerId;
   }
 
-  /**
-   * Triggers the registered callbacks of an event
-   * @param eventName name of the event
-   * @param eventArgs event arguments
-   */
+  /** Emit event to all listeners of an event */
   emit(eventName: string, eventArgs: any) {
     const listeners = this.events.get(eventName);
-    if (listeners === undefined || listeners.length === 0) {
+    if (listeners === undefined || listeners.size === 0) {
       return;
     }
-    listeners.forEach((listener) => listener(eventArgs));
+    listeners.forEach((listener, listenerId) => {
+      try {
+        listener(eventArgs);
+      } catch (error) {
+        console.error(`Listener ${listenerId} encountered an error in handling the event "${eventName}".`);
+      }
+    });
   }
 
-  /** Clears the registered events and their listeners */
-  clear() {
-    this.events.clear();
+  /** Remove an event listener */
+  off(eventName: string, listenerId: Symbol) {
+    return this.events.get(eventName)?.delete(listenerId);
   }
 }
-
-// singleton of the event emitter
-const eventEmitter = new EventEmitter();
-Object.freeze(eventEmitter);
-export default eventEmitter;

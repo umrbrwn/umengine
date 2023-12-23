@@ -1,5 +1,6 @@
-import eventEmitter from './EventEmitter';
+import EventEmitter from './EventEmitter';
 
-export {
-  eventEmitter,
-};
+// singleton of the event emitter
+const eventEmitter = new EventEmitter();
+Object.freeze(eventEmitter);
+export default eventEmitter;

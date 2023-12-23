@@ -1,5 +1,3 @@
-import SpriteSheet from './SpriteSheet';
+import Tilemap from './Tilemap';
 
-export {
-  SpriteSheet,
-};
+export { Tilemap };

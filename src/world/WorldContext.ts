@@ -1,13 +1,13 @@
 export default class WorldContext {
   /** Global rendering context */
-  renderer: CanvasRenderingContext2D;
+  renderingContext: CanvasRenderingContext2D;
 
   /** Global audio context */
   audioContext: AudioContext;
 
   /** Global configurations */
-  config: any;
+  config: Config;
 
   /** User data */
-  data: any = {};
+  data: Record<string, unknown> = {};
 }

@@ -1,39 +1,25 @@
-import Component from './Component';
+import { Vector2H } from 'core/math';
 
 /** Circle collider component */
-export default class CircleCollider extends Component {
-  diameter = 0;
-
-  /** X-offset from the X-position of the game object */
-  offsetX = 0;
-
-  /** Y-offset from the Y-position of the game object */
-  offsetY = 0;
-
-  private _radius = 0;
-
-  constructor(gameObject: IGameObject) {
-    super('circleCollider', gameObject);
-  }
-
-  set radius(value) {
-    this._radius = value;
-    this.diameter = value * 2;
-  }
+export default class CircleCollider implements IComponent, ICircle {
+  readonly name: string;
+  enabled: boolean;
 
   /** Radius of the circle collider */
-  get radius() {
-    return this._radius;
+  radius: number;
+
+  /** Offset from the position of atom */
+  offset: Vector;
+
+  constructor(readonly atom: IAtom) {
+    this.name = CircleCollider.name;
+    this.radius = 1;
+    this.offset = Vector2H.zero();
+    this.enabled = true;
   }
 
-  /**
-   * Offsetted center of the circle collider, defaults to
-   * anchor point of the game object with 0 offset
-   */
+  /** Offsetted center position relative to atom */
   get center() {
-    return {
-      x: this.gameObject.transform.position.x + this.offsetX,
-      y: this.gameObject.transform.position.y + this.offsetY,
-    };
+    return Vector2H.add(this.atom.position, this.offset);
   }
 }

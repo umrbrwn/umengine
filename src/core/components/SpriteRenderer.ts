@@ -1,50 +1,40 @@
-import Component from './Component';
-import { eventEmitter } from '../../events/index';
+import eventEmitter from 'events';
 
 /** Sprite rendering component */
-export default class SpriteRenderer extends Component {
-  /** Renderable image as sprite */
+export default class SpriteRenderer implements IComponent, IRenderer {
+  name: string;
+  enabled: boolean;
+
+  /** Renderable image */
   sprite: CanvasImageSource;
 
-  private _depth = -1;
+  private _order = -1;
 
-  constructor(gameObject: IGameObject) {
-    super('spriteRenderer', gameObject);
+  constructor(readonly atom: IAtom) {
+    this.name = SpriteRenderer.name;
+    this.enabled = true;
   }
 
   /**
-   * Set sprite of the sprite
-   * @param sprite renderable image
+   * The order in which this sprite renders.
+   *
+   * Defaults to current index of the atom on it's current layer
+   * when this atom is first added into the scene.
+   *
+   * When a whole number value is set before adding to scene
+   * then the set value is retained
    */
-  setSprite(sprite: CanvasImageSource) {
-    this.sprite = sprite;
+  get order() {
+    return this._order;
   }
 
-  /**
-  * Rendering order of the sprite on associated game object's
-  * current layer. Defaults to current index of the game object on
-  * it's current layer when this object is first added into the scene.
-  * When a whole number value is set before adding to scene
-  * then the set value is retained
-  */
-  get depth() {
-    return this._depth;
+  set order(value) {
+    this._order = value;
+    eventEmitter.emit('RENDERER_DEPTH_CHANGED', this.atom.layer);
   }
 
-  set depth(value) {
-    this._depth = value;
-    eventEmitter.emit('SPRITE_RENDERER_DEPTH_CHANGED', this.gameObject.layer);
-  }
-
-  /**
-   * Render the sprite on the given context
-   * @param context context to render the sprite in
-   */
-  render(context: CanvasRenderingContext2D) {
-    context.drawImage(
-      this.sprite,
-      this.gameObject.transform.position.x,
-      this.gameObject.transform.position.y,
-    );
+  /** Renders the sprite */
+  render(context: OffscreenCanvasRenderingContext2D) {
+    context.drawImage(this.sprite, this.atom.position.x, this.atom.position.y);
   }
 }
