@@ -1,9 +1,9 @@
 type EventListener = (event: any) => void;
-type EventListeners = Map<Symbol, EventListener>;
-
-const generateRandomId = () => Symbol(Math.floor(Math.random() * 100000) + 1);
+type EventListeners = Map<number, EventListener>;
 
 export default class EventEmitter {
+  private counter = 0;
+
   /**
    * List of events and their listeners, each event has a unique
    * name which can have more than one listeners
@@ -15,7 +15,7 @@ export default class EventEmitter {
     if (!this.events.has(eventName)) {
       this.events.set(eventName, new Map());
     }
-    const listenerId = generateRandomId();
+    const listenerId = ++this.counter;
     this.events.get(eventName)!.set(listenerId, listener);
     return listenerId;
   }
@@ -36,7 +36,7 @@ export default class EventEmitter {
   }
 
   /** Remove an event listener */
-  off(eventName: string, listenerId: Symbol) {
+  off(eventName: string, listenerId: number) {
     return this.events.get(eventName)?.delete(listenerId);
   }
 }
