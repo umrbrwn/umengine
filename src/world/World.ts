@@ -1,6 +1,7 @@
-import { InputBridge } from 'inputs';
-import { Factory } from 'graphics';
-import { loadConfig, loadKeys } from 'config';
+import { Config } from '../global';
+import { InputBridge } from '../inputs';
+import { Factory } from '../graphics';
+import { loadConfig, loadKeys } from '../config';
 import Context from './Context';
 
 type SetupOptions = { configPath?: string; keyMapPath?: string; config?: Config };

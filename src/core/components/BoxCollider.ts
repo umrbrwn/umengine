@@ -1,4 +1,5 @@
-import Vector2H from 'core/maths/Vector2H';
+import { IComponent, IRectangle, Vector, IAtom } from '../../global';
+import Vector2H from '../maths/Vector2H';
 
 /** Box collider component */
 export default class BoxCollider implements IComponent, IRectangle {

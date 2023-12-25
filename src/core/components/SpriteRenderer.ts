@@ -1,4 +1,5 @@
-import eventEmitter from 'core/events';
+import { IComponent, IRenderer, IAtom } from '../../global';
+import eventEmitter from '../events';
 
 /** Sprite rendering component */
 export default class SpriteRenderer implements IComponent, IRenderer {

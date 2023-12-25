@@ -1,6 +1,6 @@
-type Vector = { x: number; y: number };
+export type Vector = { x: number; y: number };
 
-interface ITransform {
+export interface ITransform {
   /** Position on the plane */
   position: Vector;
 
@@ -9,7 +9,7 @@ interface ITransform {
 }
 
 /** Component that extends functionality of atom */
-interface IComponent {
+export interface IComponent {
   /** Deriving component types must define a unique component name */
   readonly name: string;
 
@@ -21,7 +21,7 @@ interface IComponent {
 }
 
 /** Component collection */
-interface IComponentMap {
+export interface IComponentMap {
   /** Add component to the atom */
   add(component: IComponent): void;
 
@@ -35,7 +35,7 @@ interface IComponentMap {
   query(predicate: (component: IComponent) => boolean): IComponent[];
 }
 
-interface IStateHooks {
+export interface IStateHooks {
   /** Called once to setup this atom */
   setup(): void;
 
@@ -46,7 +46,7 @@ interface IStateHooks {
   postUpdate(): void;
 }
 
-interface IPhysicsHooks {
+export interface IPhysicsHooks {
   /** Called when atom collides with another atom */
   collision(other: IAtom): void;
 
@@ -55,7 +55,7 @@ interface IPhysicsHooks {
 }
 
 /** Basic building block of the game engine. */
-interface IAtom extends ITransform, IStateHooks, IPhysicsHooks {
+export interface IAtom extends ITransform, IStateHooks, IPhysicsHooks {
   /** Unique id */
   readonly id: string;
 
@@ -75,12 +75,12 @@ interface IAtom extends ITransform, IStateHooks, IPhysicsHooks {
   layer: string;
 }
 
-interface ICircle {
+export interface ICircle {
   center: Vector;
   radius: number;
 }
 
-type StraightLine = {
+export type StraightLine = {
   /** Start of the line */
   initial: Vector;
 
@@ -88,7 +88,7 @@ type StraightLine = {
   terminal: Vector;
 };
 
-interface IRectangle {
+export interface IRectangle {
   /** Top left vertex of the rectangle */
   topLeft: Vector;
 
@@ -108,7 +108,7 @@ interface IRectangle {
   leftEdge: StraightLine;
 }
 
-interface IRenderer {
+export interface IRenderer {
   /** Order in which this renderer will work */
   order: number;
 
@@ -116,7 +116,7 @@ interface IRenderer {
   render(context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D): void;
 }
 
-type Config = {
+export type Config = {
   window: {
     title: string;
     width: number;
@@ -126,4 +126,4 @@ type Config = {
   physics: { collider: string };
 };
 
-type InputKeyMap = Record<string, string>;
+export type InputKeyMap = Record<string, string>;

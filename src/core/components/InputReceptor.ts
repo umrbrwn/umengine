@@ -1,3 +1,5 @@
+import { IComponent, IAtom } from '../../global';
+
 /** Input receptor that buffers inputs */
 export default class InputReceptor implements IComponent, IComponent {
   readonly name: string;

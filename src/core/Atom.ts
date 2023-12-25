@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable class-methods-use-this */
 
+import { IAtom, Vector, IComponentMap } from '../global';
 import ComponentMap from './components/ComponentMap';
 import Vector2H from './maths/Vector2H';
 

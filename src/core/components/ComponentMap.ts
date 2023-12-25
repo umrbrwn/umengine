@@ -1,3 +1,5 @@
+import { IComponentMap, IComponent } from '../../global';
+
 export default class ComponentMap implements IComponentMap {
   private readonly map: Map<string, IComponent>;
 

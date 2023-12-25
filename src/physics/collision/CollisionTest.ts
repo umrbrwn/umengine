@@ -1,5 +1,6 @@
-import { BoxCollider, CircleCollider } from 'core/components';
-import Vector2H from 'core/maths/Vector2H';
+import { ICircle, StraightLine, Vector, IRectangle, IAtom } from '../../global';
+import { BoxCollider, CircleCollider } from '../../core/components';
+import Vector2H from '../../core/maths/Vector2H';
 
 /**
  * Test if the given circle is intersecting with the given line.

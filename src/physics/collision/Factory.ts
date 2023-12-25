@@ -1,4 +1,4 @@
-import { Context } from 'world';
+import { Context } from '../../world';
 import SpatialCollision from './SpatialCollision';
 
 /** Factory to create collision system */

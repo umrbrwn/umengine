@@ -1,3 +1,5 @@
+import { Config } from '../global';
+
 export default class Context {
   /** Global rendering context */
   renderingContext: CanvasRenderingContext2D;

@@ -1,4 +1,5 @@
-import Vector2H from 'core/maths/Vector2H';
+import { IComponent, ICircle, Vector, IAtom } from '../../global';
+import Vector2H from '../maths/Vector2H';
 
 /** Circle collider component */
 export default class CircleCollider implements IComponent, ICircle {

@@ -1,3 +1,5 @@
+import { IRenderer } from '../../global';
+
 /** Composer layer */
 export default class Layer implements IRenderer {
   /** Order in which this layer is rendered on the composer */

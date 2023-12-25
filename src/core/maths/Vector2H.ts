@@ -1,3 +1,5 @@
+import { Vector } from '../../global';
+
 /** 2D Vector math helper */
 export default abstract class Vector2H {
   /** Divide two vectors */

@@ -1,4 +1,5 @@
-import eventEmitter from 'core/events';
+import { Config, IRenderer } from '../../global';
+import eventEmitter from '../events';
 import Layer from './Layer';
 
 /** Manage layers by arrangement of layer order */

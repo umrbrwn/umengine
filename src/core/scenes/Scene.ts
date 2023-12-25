@@ -1,6 +1,7 @@
-import { Context } from 'world';
-import { SpriteRenderer } from 'core/components';
-import { createCollisionSystem, Collision } from 'physics';
+import { IAtom } from '../../global';
+import { SpriteRenderer } from '../components';
+import { Context } from '../../world';
+import { createCollisionSystem, Collision } from '../../physics';
 import LayerManager from './LayerManager';
 
 /** Scene that is run on collection of atoms */

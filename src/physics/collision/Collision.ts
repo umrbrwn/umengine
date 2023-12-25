@@ -1,3 +1,5 @@
+import { IAtom } from '../../global';
+
 /** Collision testing base type */
 export default abstract class Collision {
   /** Bodies present in this collision system */

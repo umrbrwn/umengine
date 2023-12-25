@@ -1,4 +1,5 @@
-import { loadJSON } from 'utils/loaders';
+import { Config, InputKeyMap } from '../global';
+import { loadJSON } from '../utils/loaders';
 
 /** @internal */
 export async function loadConfig(path = './config.json', overrides?: Config): Promise<Config> {
