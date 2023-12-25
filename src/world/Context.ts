@@ -1,4 +1,4 @@
-export default class WorldContext {
+export default class Context {
   /** Global rendering context */
   renderingContext: CanvasRenderingContext2D;
 
@@ -9,5 +9,5 @@ export default class WorldContext {
   config: Config;
 
   /** User data */
-  data: Record<string, unknown> = {};
+  store: Record<string, unknown> = {};
 }

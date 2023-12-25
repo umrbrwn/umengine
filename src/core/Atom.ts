@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable class-methods-use-this */
+
 import ComponentMap from './components/ComponentMap';
-import { Vector2H } from './math';
+import Vector2H from './maths/Vector2H';
 
 const generateRandomId = () => `${Math.floor((Math.random() * 1) ^ 6).toString(36)}${Date.now().toString(36)}`;
 

@@ -1,0 +1,1 @@
+- Implement serializer decorator for atom, components, and other artifacts like scenes, so that they can be recreated from json

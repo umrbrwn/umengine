@@ -146,6 +146,7 @@ export default class QuadTree<T extends ITransform> {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   private createQuadTree(x: number, y: number, width: number, height: number, level: number) {
     const box = new BoundingBox(x, y, width, height);
     return new QuadTree<T>(box, level);

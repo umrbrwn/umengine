@@ -125,3 +125,5 @@ type Config = {
   };
   physics: { collider: string };
 };
+
+type InputKeyMap = Record<string, string>;

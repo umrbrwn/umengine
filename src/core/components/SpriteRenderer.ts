@@ -1,8 +1,9 @@
-import eventEmitter from 'events';
+import eventEmitter from 'core/events';
 
 /** Sprite rendering component */
 export default class SpriteRenderer implements IComponent, IRenderer {
   name: string;
+
   enabled: boolean;
 
   /** Renderable image */

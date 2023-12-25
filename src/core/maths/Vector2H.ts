@@ -1,5 +1,5 @@
 /** 2D Vector math helper */
-export abstract class Vector2H {
+export default abstract class Vector2H {
   /** Divide two vectors */
   static div(u: Vector, v: Vector): Vector {
     return { x: u.x / v.x, y: u.y / v.y };

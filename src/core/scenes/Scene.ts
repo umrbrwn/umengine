@@ -1,12 +1,12 @@
-import LayerManager from './LayerManager';
+import { Context } from 'world';
 import { SpriteRenderer } from 'core/components';
 import { createCollisionSystem, Collision } from 'physics';
-import WorldContext from 'world/WorldContext';
+import LayerManager from './LayerManager';
 
 /** Scene that is run on collection of atoms */
 export default class Scene {
   /** Organize layers and their ordering */
-  private readonly layerManager: LayerManager;
+  readonly layerManager: LayerManager;
 
   /** Collision system */
   private readonly collision: Collision;
@@ -19,14 +19,14 @@ export default class Scene {
     readonly name: string,
 
     /** Used to render scene and its layers in the main view */
-    readonly context: WorldContext
+    readonly context: Context
   ) {
     this.layerManager = new LayerManager(context.config);
     this.collision = createCollisionSystem(context.config.physics.collider, context)!;
     this.atoms = [];
   }
 
-  /** Update the state of scene and objects attached to the scene */
+  /** Update the scene state */
   update() {
     this.updatePhysics();
     this.updateGameLogic();
@@ -49,12 +49,12 @@ export default class Scene {
     atom.setup();
   }
 
-  /** Update physics state of all the physics bodies */
+  /** Update state of all physics bodies */
   private updatePhysics() {
     this.collision?.test();
   }
 
-  /** Update state of all the objects with provide context */
+  /** Update all atoms game logic */
   private updateGameLogic() {
     this.atoms.forEach((atom) => atom.update());
     this.atoms.forEach((atom) => atom.postUpdate());

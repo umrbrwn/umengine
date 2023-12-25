@@ -2,13 +2,13 @@ type EventListener = (event: any) => void;
 type EventListeners = Map<number, EventListener>;
 
 export default class EventEmitter {
-  private counter = 0;
-
   /**
    * List of events and their listeners, each event has a unique
    * name which can have more than one listeners
    */
   events = new Map<string, EventListeners>();
+
+  private counter = 0;
 
   /** Add listener to an event */
   on(eventName: string, listener: EventListener) {

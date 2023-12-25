@@ -2,11 +2,12 @@
  * @example Named collection of graphics like trees, player, grass etc. created from one image tileset
  */
 export default class Tilemap {
+  /** Named collection of tiles sliced from the tileset */
+  private readonly map = new Map<string, ImageBitmap>();
+
   constructor(
     /** Tileset image */
     public readonly tileset: ImageBitmap,
-    /** Named collection of tiles sliced from the tileset */
-    private readonly map = new Map<string, ImageBitmap>(),
     /** Default width of a tile in the tileset image */
     private readonly width: number,
     /** Default height of a tile in the tileset image */
@@ -30,5 +31,10 @@ export default class Tilemap {
   /** Get tile by name */
   get(name: string) {
     return this.map.get(name);
+  }
+
+  /** Add an existing tile to the map */
+  add(name: string, tile: ImageBitmap) {
+    this.map.set(name, tile);
   }
 }

@@ -1,11 +1,14 @@
 {
   "name": "umengine",
   "version": "0.1.0",
-  "description": "umEngine is a 2D game engine for developing simple browser-based games. The motivation is to learn by coding.",
-  "main": "src/index.ts",
+  "description": "Develop simple 2D games to run your web browser using JavaScript/TypeScript with umEngine",
+  "main": "dist/bundle.js",
+  "type": "module",
   "scripts": {
-    "build": "tsup",
-    "build:dev": "tsup src/index.ts --watch"
+    "lint": "eslint \"{src,test}/**/*.ts\" --color --max-warnings=0",
+    "lint:fix": "eslint \"{src,test}/**/*.ts\" --fix --color",
+    "build": "rollup -c",
+    "build:dev": "rollup -c -w"
   },
   "repository": {
     "type": "git",
@@ -18,12 +21,17 @@
   },
   "homepage": "https://github.com/umrbrwn/umengine#readme",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.13.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "eslint": "^8.23.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.26.0",
-    "tsup": "^6.2.3"
+    "rollup": "^4.9.1",
+    "rollup-plugin-copy": "^3.5.0",
+    "typescript": "^5.3.3"
   }
 }

@@ -1,5 +1,5 @@
-import { Timer } from '../core';
-import WorldContext from 'world/WorldContext';
+import { Context } from 'world';
+import { Timer } from 'core';
 import Scene from './Scene';
 
 /** Manage scenes by creating and maintaining states of the scene */
@@ -14,7 +14,7 @@ export class SceneManager {
   private readonly timer = new Timer();
 
   /** Create a new scene */
-  create(name: string, context: WorldContext) {
+  create(name: string, context: Context) {
     const scene = new Scene(name, context);
     this.scenes.set(scene.name, scene);
     return scene;

@@ -1,4 +1,4 @@
-import WorldContext from 'world/WorldContext';
+import { Context } from 'world';
 import QuadTree from '../QuadTree';
 import BoundingBox from './BoundingBox';
 import test from './CollisionTest';
@@ -8,7 +8,7 @@ import Collision from './Collision';
 export default class SpatialCollision extends Collision {
   private tree: QuadTree<IAtom>;
 
-  constructor(context: WorldContext) {
+  constructor(context: Context) {
     super();
     this.tree = new QuadTree({
       x: 0,

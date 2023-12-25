@@ -1,5 +1,5 @@
 import Atom from './Atom';
 import Timer from './Timer';
-import * as math from './math/index';
+import math from './maths';
 
 export { Atom, Timer, math };

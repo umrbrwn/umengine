@@ -1,10 +1,10 @@
-import eventEmitter from 'events';
+import eventEmitter from 'core/events';
 import Layer from './Layer';
 
 /** Manage layers by arrangement of layer order */
 export default class LayerManager {
   /** Engine configurations required to create layers */
-  config: Config;
+  readonly config: Config;
 
   /** Managed layers */
   layers: Layer[] = [];
@@ -47,6 +47,7 @@ export default class LayerManager {
     const layerExists = !!layer;
     if (layerExists) {
       if (item.order < 0) {
+        // eslint-disable-next-line no-param-reassign
         item.order = layer.drawables.length;
       }
       layer.drawables.push(item);
