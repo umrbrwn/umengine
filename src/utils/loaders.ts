@@ -1,9 +1,7 @@
-export function loadImage(url: string) {
+export function loadImage(url: string): Promise<ImageBitmap> {
   return new Promise((resolve) => {
     const image = new Image();
-    image.addEventListener('load', () => {
-      resolve(image);
-    });
+    image.onload = () => resolve(createImageBitmap(image));
     image.src = url;
   });
 }

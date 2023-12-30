@@ -1,4 +1,4 @@
-import { Config, IRenderer } from '../../global';
+import { Config, IRenderer } from '../../types';
 import eventEmitter from '../events';
 import Layer from './Layer';
 

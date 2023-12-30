@@ -1,10 +1,9 @@
-import { IComponent, IRenderer, IAtom } from '../../global';
+import { IComponent, IRenderer, IAtom } from '../../types';
 import eventEmitter from '../events';
 
 /** Sprite rendering component */
 export default class SpriteRenderer implements IComponent, IRenderer {
   name: string;
-
   enabled: boolean;
 
   /** Renderable image */
@@ -12,8 +11,9 @@ export default class SpriteRenderer implements IComponent, IRenderer {
 
   private _order = -1;
 
-  constructor(readonly atom: IAtom) {
+  constructor(readonly atom: IAtom, sprite: CanvasImageSource) {
     this.name = SpriteRenderer.name;
+    this.sprite = sprite;
     this.enabled = true;
   }
 

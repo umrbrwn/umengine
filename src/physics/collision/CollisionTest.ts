@@ -1,4 +1,4 @@
-import { ICircle, StraightLine, Vector, IRectangle, IAtom } from '../../global';
+import { ICircle, StraightLine, Vector, IRectangle, IAtom } from '../../types';
 import { BoxCollider, CircleCollider } from '../../core/components';
 import Vector2H from '../../core/maths/Vector2H';
 

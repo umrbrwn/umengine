@@ -1,4 +1,4 @@
-import { Vector } from '../../global';
+import { Vector } from '../../types';
 
 /** 2D Vector math helper */
 export default abstract class Vector2H {

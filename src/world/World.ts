@@ -1,4 +1,4 @@
-import { Config } from '../global';
+import { Config } from '../types';
 import { InputBridge } from '../inputs';
 import { Factory } from '../graphics';
 import { loadConfig, loadKeys } from '../config';

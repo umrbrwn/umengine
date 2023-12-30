@@ -1,4 +1,4 @@
-import { IAtom } from '../../global';
+import { IAtom } from '../../types';
 import { SpriteRenderer } from '../components';
 import { Context } from '../../world';
 import { createCollisionSystem, Collision } from '../../physics';

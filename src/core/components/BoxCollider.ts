@@ -1,4 +1,4 @@
-import { IComponent, IRectangle, Vector, IAtom } from '../../global';
+import { IComponent, IRectangle, Vector, IAtom } from '../../types';
 import Vector2H from '../maths/Vector2H';
 
 /** Box collider component */

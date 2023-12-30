@@ -1,4 +1,4 @@
-import { IRenderer } from '../../global';
+import { IRenderer } from '../../types';
 
 /** Composer layer */
 export default class Layer implements IRenderer {

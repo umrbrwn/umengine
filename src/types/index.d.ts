@@ -69,7 +69,7 @@ export interface IAtom extends ITransform, IStateHooks, IPhysicsHooks {
   components: IComponentMap;
 
   /** Any user data */
-  data?: Record<string, unknown>;
+  data: Record<string, unknown>;
 
   /** Layer at which this atom will render */
   layer: string;

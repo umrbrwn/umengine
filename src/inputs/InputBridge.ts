@@ -1,4 +1,4 @@
-import { IAtom, InputKeyMap } from '../global';
+import { IAtom, InputKeyMap } from '../types';
 import { InputReceptor } from '../core/components';
 import InputStateManager from './InputStateManager';
 

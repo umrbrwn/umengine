@@ -1,4 +1,4 @@
-import { IAtom } from '../../global';
+import { IAtom } from '../../types';
 
 /** Collision testing base type */
 export default abstract class Collision {

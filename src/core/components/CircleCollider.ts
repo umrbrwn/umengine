@@ -1,4 +1,4 @@
-import { IComponent, ICircle, Vector, IAtom } from '../../global';
+import { IComponent, ICircle, Vector, IAtom } from '../../types';
 import Vector2H from '../maths/Vector2H';
 
 /** Circle collider component */

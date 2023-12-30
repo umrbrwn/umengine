@@ -1,4 +1,4 @@
-import { Config, InputKeyMap } from '../global';
+import { Config, InputKeyMap } from '../types';
 import { loadJSON } from '../utils/loaders';
 
 /** @internal */

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable class-methods-use-this */
 
-import { IAtom, Vector, IComponentMap } from '../global';
+import { IAtom, Vector, IComponentMap } from '../types';
 import ComponentMap from './components/ComponentMap';
 import Vector2H from './maths/Vector2H';
 
@@ -14,7 +14,7 @@ export default class Atom implements IAtom {
   position: Vector;
   scale: Vector;
   components: IComponentMap;
-  data?: Record<string, unknown>;
+  data: Record<string, unknown>;
   layer: string;
 
   constructor(name: string) {

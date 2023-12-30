@@ -1,4 +1,4 @@
-import { ITransform } from '../global';
+import { ITransform } from '../types';
 import BoundingBox from './collision/BoundingBox';
 
 const defaultBoundary = new BoundingBox(0, 0, 0, 0);

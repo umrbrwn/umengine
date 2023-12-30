@@ -1,4 +1,4 @@
-import { IAtom } from '../../global';
+import { IAtom } from '../../types';
 import { Context } from '../../world';
 import QuadTree from '../QuadTree';
 import BoundingBox from './BoundingBox';

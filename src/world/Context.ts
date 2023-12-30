@@ -1,4 +1,4 @@
-import { Config } from '../global';
+import { Config } from '../types';
 
 export default class Context {
   /** Global rendering context */

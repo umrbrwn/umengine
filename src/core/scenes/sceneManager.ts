@@ -1,5 +1,5 @@
 import { Context } from '../../world';
-import { Timer } from '..';
+import Timer from '../Timer';
 import Scene from './Scene';
 
 /** Manage scenes by creating and maintaining states of the scene */
