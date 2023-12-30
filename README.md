@@ -1,6 +1,6 @@
 # umEngine 🕹️
 
-Develop simple 2D games to run your web browser using JavaScript/TypeScript with umEngine.
+Develop simple 2D games with umEngine using JavaScript/TypeScript to run your web browser.
 
 ### Inspiration/Credits
 
