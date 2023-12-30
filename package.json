@@ -6,11 +6,12 @@
   "types": "src/types/index.d.ts",
   "type": "module",
   "scripts": {
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"{src,test}/**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\" --color --max-warnings=0",
     "lint:fix": "eslint \"{src,test}/**/*.ts\" --fix --color",
     "build": "rollup -c",
-    "build:dev": "rollup -c -w"
+    "build:dev": "rollup -c -w",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.26.0",
+    "husky": "^8.0.0",
     "prettier": "^3.1.1",
     "rollup": "^4.9.1",
     "rollup-plugin-copy": "^3.5.0",
