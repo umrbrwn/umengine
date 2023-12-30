@@ -6,6 +6,7 @@
   "types": "src/types/index.d.ts",
   "type": "module",
   "scripts": {
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\" --color --max-warnings=0",
     "lint:fix": "eslint \"{src,test}/**/*.ts\" --fix --color",
     "build": "rollup -c",
@@ -31,6 +32,7 @@
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.26.0",
+    "prettier": "^3.1.1",
     "rollup": "^4.9.1",
     "rollup-plugin-copy": "^3.5.0",
     "typescript": "^5.3.3"

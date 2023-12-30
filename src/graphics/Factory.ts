@@ -61,7 +61,7 @@ export async function createPattern(
   width: number,
   height: number,
   patternWidth: number,
-  patternHeight: number
+  patternHeight: number,
 ) {
   return createImageBitmap(tileset, x, y, width, height).then((tile) => {
     const buffer = new OffscreenCanvas(patternWidth, patternHeight);

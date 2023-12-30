@@ -11,7 +11,10 @@ export default class SpriteRenderer implements IComponent, IRenderer {
 
   private _order = -1;
 
-  constructor(readonly atom: IAtom, sprite: CanvasImageSource) {
+  constructor(
+    readonly atom: IAtom,
+    sprite: CanvasImageSource,
+  ) {
     this.name = SpriteRenderer.name;
     this.sprite = sprite;
     this.enabled = true;

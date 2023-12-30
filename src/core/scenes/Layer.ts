@@ -14,7 +14,11 @@ export default class Layer implements IRenderer {
   /** Local rendering context */
   private readonly renderingContext: OffscreenCanvasRenderingContext2D;
 
-  constructor(readonly name: string, readonly width: number, readonly height: number) {
+  constructor(
+    readonly name: string,
+    readonly width: number,
+    readonly height: number,
+  ) {
     this.renderingContext = new OffscreenCanvas(width, height).getContext('2d')!;
   }
 

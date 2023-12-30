@@ -20,7 +20,7 @@ export default class Scene {
     readonly name: string,
 
     /** Used to render scene and its layers in the main view */
-    readonly context: Context
+    readonly context: Context,
   ) {
     this.layerManager = new LayerManager(context.config);
     this.collision = createCollisionSystem(context.config.physics.collider, context)!;
@@ -70,7 +70,7 @@ export default class Scene {
       0,
       0,
       this.context.renderingContext.canvas.width,
-      this.context.renderingContext.canvas.height
+      this.context.renderingContext.canvas.height,
     );
     // compose all the layers
     this.layerManager.layers.forEach((layer) => layer.render(this.context.renderingContext));

@@ -16,7 +16,7 @@ export default class BoundingBox {
     public readonly x: number,
     public readonly y: number,
     public readonly width: number,
-    public readonly height: number
+    public readonly height: number,
   ) {
     this.widthHalf = width / 2;
     this.heightHalf = height / 2;

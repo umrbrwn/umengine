@@ -11,7 +11,7 @@ export default class Tilemap {
     /** Default width of a tile in the tileset image */
     private readonly width: number,
     /** Default height of a tile in the tileset image */
-    private readonly height: number
+    private readonly height: number,
   ) {}
 
   /**
