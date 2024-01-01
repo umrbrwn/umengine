@@ -1,5 +1,5 @@
 import { Config, IRenderer } from '../../types';
-import eventEmitter from '../events';
+import { systemEvents } from '../events/internal';
 import Layer from './Layer';
 
 /** Manage layers by arrangement of layer order */
@@ -15,7 +15,7 @@ export default class LayerManager {
     this.createLayer('default');
 
     // when a drawable item reorders itself, the layer that contains the item should reorder its items
-    eventEmitter.on('RENDERER_DEPTH_CHANGED', (layerName: string) => {
+    systemEvents.on('RENDERER_DEPTH_CHANGED', (layerName: string) => {
       const layer = this.get(layerName);
       if (layer) {
         layer.pendingDepthSort = true;

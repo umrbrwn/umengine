@@ -1,5 +1,5 @@
 import { IComponent, IRenderer, IAtom } from '../../types';
-import eventEmitter from '../events';
+import { systemEvents } from '../events/internal';
 
 /** Sprite rendering component */
 export class SpriteRenderer implements IComponent, IRenderer {
@@ -35,7 +35,7 @@ export class SpriteRenderer implements IComponent, IRenderer {
 
   set order(value) {
     this._order = value;
-    eventEmitter.emit('RENDERER_DEPTH_CHANGED', this.atom.layer);
+    systemEvents.emit('RENDERER_DEPTH_CHANGED', this.atom.layer);
   }
 
   /** Renders the sprite */
