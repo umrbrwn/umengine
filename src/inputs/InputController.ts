@@ -8,8 +8,8 @@ export class InputController {
   /** Key codes currently pressed */
   private readonly pressedKeys = new Set<string>();
 
-  /** Key codes just released */
-  private readonly releasedKeys = new Set<string>();
+  /** Key code that's just released */
+  private releasedKey?: string;
 
   constructor(
     private readonly source: EventTarget,
@@ -23,7 +23,7 @@ export class InputController {
   }
 
   isKeyUp(key: string) {
-    return this.releasedKeys.has(key);
+    return this.releasedKey === key;
   }
 
   getAxis(axis: 'X' | 'Y'): number {
@@ -38,19 +38,18 @@ export class InputController {
   }
 
   postUpdate() {
-    this.releasedKeys.clear();
+    this.releasedKey = undefined;
   }
 
   private addKey(code: string) {
     const key = this.keymap[code];
-    this.releasedKeys.delete(key);
     this.pressedKeys.add(key);
   }
 
   private removeKey(code: string) {
     const key = this.keymap[code];
     this.pressedKeys.delete(key);
-    this.releasedKeys.add(key);
+    this.releasedKey = key;
   }
 
   private addHandlers() {
