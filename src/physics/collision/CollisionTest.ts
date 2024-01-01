@@ -1,6 +1,6 @@
 import { ICircle, StraightLine, Vector, IRectangle, IAtom } from '../../types';
+import { Vector2H } from '../../core/maths';
 import { BoxCollider, CircleCollider } from '../../core/components';
-import Vector2H from '../../core/maths/Vector2H';
 
 /**
  * Test if the given circle is intersecting with the given line.
@@ -67,7 +67,7 @@ function testCircleCollision(circle1: ICircle, circle2: ICircle) {
 }
 
 /** Test collision between two atoms */
-export default function test(body: IAtom, other: IAtom) {
+export function testCollision(body: IAtom, other: IAtom) {
   if (body !== other) {
     return false;
   }

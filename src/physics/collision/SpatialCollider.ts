@@ -1,12 +1,11 @@
-import { IAtom } from '../../types';
-import { Context } from '../../world';
-import QuadTree from '../QuadTree';
-import BoundingBox from './BoundingBox';
-import test from './CollisionTest';
-import Collision from './Collision';
+import { IAtom, Context } from '../../types';
+import { Collider, GetCollisionId } from './Collider';
+import { QuadTree } from './QuadTree';
+import { BoundingBox } from './BoundingBox';
+import { testCollision } from './CollisionTest';
 
 /** Spatial space collision detection in 2D space */
-export default class SpatialCollision extends Collision {
+export default class SpatialCollider extends Collider {
   private tree: QuadTree<IAtom>;
 
   constructor(context: Context) {
@@ -27,12 +26,12 @@ export default class SpatialCollision extends Collision {
     this.bodies.forEach((body) => {
       const candidates = this.tree.fetch(body);
       candidates.forEach((candidate) => {
-        if (this.colliding.has(Collision.collisionId(body, candidate))) {
+        if (this.colliding.has(GetCollisionId(body, candidate)[0])) {
           return;
         }
 
         // any body can have more than 1 type of colliders so each has to be tested
-        const result = test(body, candidate);
+        const result = testCollision(body, candidate);
         this.respond(body, candidate, result);
       });
     });

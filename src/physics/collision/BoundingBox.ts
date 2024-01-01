@@ -1,5 +1,5 @@
 /** Axis Aligned Bounding Box */
-export default class BoundingBox {
+export class BoundingBox {
   /** Vertical midpoint (x + widthHalf) */
   readonly xm: number;
 

@@ -1,9 +1,7 @@
-import { ITransform } from '../types';
-import BoundingBox from './collision/BoundingBox';
+import { ITransform } from '../../types';
+import { BoundingBox } from './BoundingBox';
 
-const defaultBoundary = new BoundingBox(0, 0, 0, 0);
-
-export default class QuadTree<T extends ITransform> {
+export class QuadTree<T extends ITransform> {
   /** Physical boundary of this node */
   private readonly boundary: BoundingBox;
 
@@ -17,12 +15,12 @@ export default class QuadTree<T extends ITransform> {
   private readonly maxLevels = 5;
 
   /** Child nodes of this node, aka quadrants */
-  private nodes: QuadTree<T>[];
+  private nodes: QuadTree<T>[] = [];
 
   /** Items present in this quadrant */
   private items: T[] = [];
 
-  constructor(boundary = defaultBoundary, level = 0) {
+  constructor(boundary = new BoundingBox(0, 0, 0, 0), level = 0) {
     this.boundary = boundary;
     this.level = level;
   }

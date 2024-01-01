@@ -1,7 +1,11 @@
 import { IAtom } from '../../types';
 
+export function GetCollisionId(body: IAtom, other: IAtom) {
+  return [`${body.id}:${other.id}`, `${other.id}:${body.id}`];
+}
+
 /** Collision testing base type */
-export default abstract class Collision {
+export abstract class Collider {
   /** Bodies present in this collision system */
   protected bodies: IAtom[] = [];
 
@@ -28,8 +32,7 @@ export default abstract class Collision {
    * @param hit are both of the bodies colliding
    */
   respond(body: IAtom, other: IAtom, hit: boolean) {
-    const id = Collision.collisionId(body, other);
-    const revId = Collision.collisionId(other, body);
+    const [id, revId] = GetCollisionId(body, other);
     if (hit) {
       this.colliding.add(id).add(revId);
       other.collision(body);
@@ -41,6 +44,4 @@ export default abstract class Collision {
       body.collisionEnd(other);
     }
   }
-
-  static collisionId = (body: IAtom, other: IAtom) => `${body.id}:${other.id}`;
 }
