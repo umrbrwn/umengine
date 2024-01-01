@@ -1,7 +1,8 @@
 import { IAtom, Context } from '../types';
 import { LayerManager } from './LayerManager';
 import { createCollider, Collider } from '../physics';
-import { SpriteRenderer } from '../core';
+import { InputReceptor, SpriteRenderer } from '../core';
+import { InputManager } from '../inputs';
 
 /** Scene that is run on collection of atoms */
 export class Scene {
@@ -10,6 +11,9 @@ export class Scene {
 
   /** Collision system */
   private readonly collider: Collider;
+
+  /** Handles atoms that can handle user inputs */
+  private readonly inputManager: InputManager;
 
   /** All the atoms loaded in the scene */
   private readonly atoms: IAtom[];
@@ -25,6 +29,7 @@ export class Scene {
     const scale = { x: config.window.width, y: config.window.height };
     this.layerManager = new LayerManager(scale);
     this.collider = createCollider(config.physics.collider, context)!;
+    this.inputManager = new InputManager(context.renderingContext.canvas, config.keymap);
     this.atoms = [];
   }
 
@@ -45,6 +50,10 @@ export class Scene {
     const hasCollider = atom.components.query((component) => component.name.endsWith('Collider'));
     if (hasCollider?.length) {
       this.collider.addBody(atom);
+    }
+
+    if (atom.components.get(InputReceptor.name)) {
+      this.inputManager.addReceptor(atom);
     }
 
     this.atoms.push(atom);
