@@ -1,84 +1,91 @@
-import { IAtom, Context } from '../types';
-import { LayerManager } from './LayerManager';
-import { createCollider, Collider } from '../physics';
+import { IAtom } from '../types';
+import { Layer } from './Layer';
 import { SpriteRenderer } from '../core';
-import { InputController } from '../inputs';
+import { systemEvents } from '../core/events/internal';
 
 /** Scene that is run on collection of atoms */
 export class Scene {
-  /** Organize layers and their ordering */
-  readonly layerManager: LayerManager;
-
-  /** User input controller */
-  readonly inputController: InputController;
-
-  /** Collision system */
-  private readonly collider: Collider;
-
   /** All the atoms loaded in the scene */
-  private readonly atoms: IAtom[];
+  readonly items: IAtom[];
+
+  /** Ordered layers composing this scene */
+  private readonly layers: Layer[];
 
   constructor(
     /** Name used to identify in the SceneManager */
     readonly name: string,
 
     /** Scene context */
-    readonly context: Context,
+    readonly context: CanvasRenderingContext2D,
   ) {
-    const { config } = context;
-    this.layerManager = new LayerManager({ x: config.window.width, y: config.window.height });
-    this.collider = createCollider(config.physics.collider, context)!;
-    this.inputController = new InputController(context.renderingContext.canvas, config.keymap);
-    this.atoms = [];
+    this.layers = [];
+    this.items = [];
+    systemEvents.on('RENDERER_DEPTH_CHANGED', (layerName: string) => {
+      const layer = this.getLayer(layerName);
+      if (layer) {
+        layer.pendingDepthSort = true;
+      }
+    });
   }
 
-  /** Run once every frame */
-  update() {
-    this.updatePhysics();
-    this.updateGameLogic();
-    this.render();
-  }
-
-  /** Run once after updating every frame */
-  postUpdate() {
-    this.inputController.postUpdate();
+  /** Add new layer in the scene */
+  addLayer(name: string, options?: { order?: number; width?: number; height?: number }) {
+    if (this.layers.length === 10) {
+      throw new Error('Maximum layer capacity reached, cannot create new layer.');
+    }
+    const { canvas } = this.context;
+    const opts = {
+      order: this.layers.length + 1,
+      width: canvas.width,
+      height: canvas.height,
+      ...options,
+    };
+    const { order } = opts;
+    if (order < 1 || order > 20) {
+      throw new Error(`Layer order ${order} is out of range.`);
+    }
+    if (this.layers.some((layer) => layer.order === order)) {
+      throw new Error(`Layer order ${order} is in use.`);
+    }
+    const layer = new Layer(name, opts.width, opts.height);
+    layer.order = order;
+    this.layers.push(layer);
+    this.layers.sort(({ order: a }, { order: b }) => a - b);
   }
 
   /** Add an atom to the scene */
   addItem(atom: IAtom) {
-    const renderer = atom.components.get<SpriteRenderer>(SpriteRenderer.name);
-    if (atom.layer && renderer) {
-      this.layerManager.addItem(renderer, atom.layer);
-    }
-
-    const hasCollider = atom.components.query((component) => component.name.endsWith('Collider'));
-    if (hasCollider?.length) {
-      this.collider.addBody(atom);
-    }
-
-    this.atoms.push(atom);
+    this.addToLayer(atom);
+    this.items.push(atom);
     atom.init();
   }
 
-  /** Update state of all physics bodies */
-  private updatePhysics() {
-    this.collider?.test();
-  }
-
-  /** Update all atoms game logic */
-  private updateGameLogic() {
-    this.atoms.forEach((atom) => atom.update());
-    this.atoms.forEach((atom) => atom.postUpdate());
-  }
-
   /** Render scene layers and compose them in the main renderer */
-  private render() {
+  update() {
     // sort layer items
-    this.layerManager.layers.forEach((layer) => layer.sortDepth());
-    const { renderingContext } = this.context;
+    this.layers.forEach((layer) => layer.sortDepth());
+    const renderingContext = this.context;
     // clear the main rendering canvas
     renderingContext.clearRect(0, 0, renderingContext.canvas.width, renderingContext.canvas.height);
     // compose all the layers
-    this.layerManager.layers.forEach((layer) => layer.render(renderingContext));
+    this.layers.forEach((layer) => layer.render(renderingContext));
+  }
+
+  private addToLayer(atom: IAtom) {
+    const renderer = atom.components.get<SpriteRenderer>(SpriteRenderer.name);
+    if (atom.layer && renderer) {
+      const layer = this.getLayer(atom.layer);
+      if (layer) {
+        if (renderer.order < 0) {
+          renderer.order = layer.drawables.length;
+        }
+        layer.drawables.push(renderer);
+      }
+    }
+  }
+
+  /** Get layer by name */
+  private getLayer(name: string) {
+    return this.layers.find((l) => l.name === name);
   }
 }

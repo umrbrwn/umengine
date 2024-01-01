@@ -1,7 +1,7 @@
 import { Config, Context } from './types';
 import { loadConfig } from './config';
 import { createHiDPICanvas } from './graphics';
-import { SceneManager } from './scenes';
+import { SceneManager, SceneRunner } from './scenes';
 import { InputController } from './inputs';
 
 export * as core from './core';
@@ -28,10 +28,12 @@ export async function init(canvas: HTMLCanvasElement, options?: Options) {
   } as Context;
 
   sceneManager = new SceneManager(context);
-  sceneManager.create('default');
-  sceneManager.run('default');
+  sceneManager.addScene('default');
 
-  inputController = sceneManager.current.inputController;
+  const sceneRunner = new SceneRunner(sceneManager);
+  sceneRunner.run('default');
+
+  inputController = sceneManager.inputController;
 
   // eslint-disable-next-line no-param-reassign
   canvas.tabIndex = 1;

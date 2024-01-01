@@ -1,4 +1,4 @@
-import { IRenderer, Vector } from '../types';
+import { IRenderer } from '../types';
 
 /** Composer layer */
 export class Layer implements IRenderer {
@@ -18,16 +18,19 @@ export class Layer implements IRenderer {
     /** Layer name */
     readonly name: string,
 
-    /** Size of layer */
-    readonly scale: Vector,
+    /** Layer width */
+    readonly width: number,
+
+    /** Layer height */
+    readonly height: number,
   ) {
-    this.renderingContext = new OffscreenCanvas(scale.x, scale.y).getContext('2d')!;
+    this.renderingContext = new OffscreenCanvas(width, height).getContext('2d')!;
   }
 
   /** Render drawable items of this layer in local rendering context and then compose them on target layer */
   render(target: CanvasRenderingContext2D) {
     // clear this layer for redraw
-    this.renderingContext.clearRect(0, 0, this.scale.x, this.scale.y);
+    this.renderingContext.clearRect(0, 0, this.width, this.height);
     // render all the drawable items
     this.drawables.forEach((item) => item.render(this.renderingContext));
     // compose this layer on the target layer
