@@ -9,16 +9,16 @@
     "collider": "spatial"
   },
   "keymap": {
-    "UP": "ArrowUp",
-    "DOWN": "ArrowDown",
-    "LEFT": "ArrowLeft",
-    "RIGHT": "ArrowRight",
-    "W": "KeyW",
-    "A": "KeyA",
-    "S": "KeyS",
-    "D": "KeyD",
-    "SPACE": "Space",
-    "SHIFT_LEFT": "ShiftLeft",
-    "SHIFT_RIGHT": "ShiftRight"
+    "ArrowUp": "UP",
+    "ArrowDown": "DOWN",
+    "ArrowLeft": "LEFT",
+    "ArrowRight": "RIGHT",
+    "KeyW": "W",
+    "KeyA": "A",
+    "KeyS": "S",
+    "KeyD": "D",
+    "Space": "SPACE",
+    "ShiftLeft": "SHIFT_LEFT",
+    "ShiftRight": "SHIFT_RIGHT"
   }
 }

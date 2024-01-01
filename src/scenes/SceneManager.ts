@@ -40,7 +40,10 @@ export class SceneManager {
       throw new Error(`Scene "${name}" not found.`);
     }
     this._current = this.scenes.get(name)!;
-    this.timer.update = () => this.current.update();
+    this.timer.update = () => {
+      this.current.update();
+      this.current.postUpdate();
+    };
     this.timer.start();
   }
 

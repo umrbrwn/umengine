@@ -1,6 +1,6 @@
 /** Timer to control the execution flow */
 export class Timer {
-  update: Function;
+  update: () => void;
 
   // TODO: check if deltaTime can be non-static
   /** Time difference between two frame updates */
@@ -16,7 +16,7 @@ export class Timer {
 
   /** Enqueue updates from the execution loop */
   enqueue() {
-    requestAnimationFrame(this.updateProxy);
+    requestAnimationFrame(this._update);
   }
 
   /** Start timer */
@@ -24,14 +24,14 @@ export class Timer {
     this.enqueue();
   }
 
-  private updateProxy = (time: number) => {
+  private _update = (time: number) => {
     if (this.lastTime) {
       this.accumulatedTime += (time - this.lastTime) / 1000;
       if (this.accumulatedTime > 1) {
         this.accumulatedTime = 1;
       }
       while (this.accumulatedTime > Timer.deltaTime) {
-        this.update(Timer.deltaTime);
+        this.update();
         this.accumulatedTime -= Timer.deltaTime;
       }
     }

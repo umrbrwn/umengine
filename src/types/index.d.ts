@@ -35,14 +35,14 @@ export interface IComponentMap {
   query(predicate: (component: IComponent) => boolean): IComponent[];
 }
 
-export interface IStateHooks {
-  /** Called once when attaching atom to a scene */
+export interface ILifecycleHooks {
+  /** Called once when attaching to a scene */
   init(): void;
 
-  /** Called in each frame to update state of atom */
+  /** Called once every frame */
   update(): void;
 
-  /** Called after updating state of atom */
+  /** Called once after rendering current frame */
   postUpdate(): void;
 }
 
@@ -55,7 +55,7 @@ export interface IPhysicsHooks {
 }
 
 /** Basic building block of the game engine. */
-export interface IAtom extends ITransform, IStateHooks, IPhysicsHooks {
+export interface IAtom extends ITransform, ILifecycleHooks, IPhysicsHooks {
   /** Unique id */
   readonly id: string;
 
@@ -116,7 +116,6 @@ export interface IRenderer {
   render(context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D): void;
 }
 
-/** User friendly key names to internal key code mapping */
 export type InputKeymap = Record<string, string>;
 
 export type Config = {
@@ -140,6 +139,6 @@ export type Context = {
   /** System configurations */
   config: Config;
 
-  /** User data */
+  /** Data store */
   store: Record<string, unknown>;
 };

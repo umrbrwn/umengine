@@ -1,19 +1,19 @@
 import { IAtom, Context } from '../types';
 import { LayerManager } from './LayerManager';
 import { createCollider, Collider } from '../physics';
-import { InputReceptor, SpriteRenderer } from '../core';
-import { InputManager } from '../inputs';
+import { SpriteRenderer } from '../core';
+import { InputController } from '../inputs';
 
 /** Scene that is run on collection of atoms */
 export class Scene {
   /** Organize layers and their ordering */
   readonly layerManager: LayerManager;
 
+  /** User input controller */
+  readonly inputController: InputController;
+
   /** Collision system */
   private readonly collider: Collider;
-
-  /** Handles atoms that can handle user inputs */
-  private readonly inputManager: InputManager;
 
   /** All the atoms loaded in the scene */
   private readonly atoms: IAtom[];
@@ -26,18 +26,22 @@ export class Scene {
     readonly context: Context,
   ) {
     const { config } = context;
-    const scale = { x: config.window.width, y: config.window.height };
-    this.layerManager = new LayerManager(scale);
+    this.layerManager = new LayerManager({ x: config.window.width, y: config.window.height });
     this.collider = createCollider(config.physics.collider, context)!;
-    this.inputManager = new InputManager(context.renderingContext.canvas, config.keymap);
+    this.inputController = new InputController(context.renderingContext.canvas, config.keymap);
     this.atoms = [];
   }
 
-  /** Update the scene state */
+  /** Run once every frame */
   update() {
     this.updatePhysics();
     this.updateGameLogic();
     this.render();
+  }
+
+  /** Run once after updating every frame */
+  postUpdate() {
+    this.inputController.postUpdate();
   }
 
   /** Add an atom to the scene */
@@ -50,10 +54,6 @@ export class Scene {
     const hasCollider = atom.components.query((component) => component.name.endsWith('Collider'));
     if (hasCollider?.length) {
       this.collider.addBody(atom);
-    }
-
-    if (atom.components.get(InputReceptor.name)) {
-      this.inputManager.addReceptor(atom);
     }
 
     this.atoms.push(atom);
