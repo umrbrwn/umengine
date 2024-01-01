@@ -1,19 +1,17 @@
-import { Config, IRenderer } from '../../types';
-import { systemEvents } from '../events/internal';
-import Layer from './Layer';
+import { IRenderer, Vector } from '../types';
+import { Layer } from './Layer';
+import { systemEvents } from '../core/events/internal';
 
 /** Manage layers by arrangement of layer order */
-export default class LayerManager {
-  /** Engine configurations required to create layers */
-  readonly config: Config;
-
+export class LayerManager {
   /** Managed layers */
   layers: Layer[] = [];
 
-  constructor(config: Config) {
-    this.config = config;
+  constructor(
+    /** Default size for new layers */
+    private readonly scale: Vector,
+  ) {
     this.createLayer('default');
-
     // when a drawable item reorders itself, the layer that contains the item should reorder its items
     systemEvents.on('RENDERER_DEPTH_CHANGED', (layerName: string) => {
       const layer = this.get(layerName);
@@ -56,29 +54,28 @@ export default class LayerManager {
     return layerExists;
   }
 
-  createLayer(name: string, options?: { order: number; width: number; height: number }) {
+  createLayer(name: string, options?: { order?: number; scale?: Vector }) {
     if (this.layers.length === 10) {
-      throw new Error('Maximum layer capacity is full.');
+      throw new Error('Maximum layer capacity reached, cannot create new layer.');
     }
 
     const opts = {
       order: this.layers.length + 1,
-      width: this.config.window.width,
-      height: this.config.window.height,
+      scale: this.scale,
       ...options,
     };
 
     const { order } = opts;
 
     if (order < 1 || order > 20) {
-      throw new Error(`Layer order ${order} out of range.`);
+      throw new Error(`Layer order ${order} is out of range.`);
     }
 
     if (this.layers.some((layer) => layer.order === order)) {
       throw new Error(`Layer order ${order} is in use.`);
     }
 
-    const layer = new Layer(name, opts.width, opts.height);
+    const layer = new Layer(name, opts.scale);
     layer.order = order;
 
     this.layers.push(layer);

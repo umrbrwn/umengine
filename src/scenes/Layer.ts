@@ -1,7 +1,7 @@
-import { IRenderer } from '../../types';
+import { IRenderer, Vector } from '../types';
 
 /** Composer layer */
-export default class Layer implements IRenderer {
+export class Layer implements IRenderer {
   /** Order in which this layer is rendered on the composer */
   order = -1;
 
@@ -15,21 +15,23 @@ export default class Layer implements IRenderer {
   private readonly renderingContext: OffscreenCanvasRenderingContext2D;
 
   constructor(
+    /** Layer name */
     readonly name: string,
-    readonly width: number,
-    readonly height: number,
+
+    /** Size of layer */
+    readonly scale: Vector,
   ) {
-    this.renderingContext = new OffscreenCanvas(width, height).getContext('2d')!;
+    this.renderingContext = new OffscreenCanvas(scale.x, scale.y).getContext('2d')!;
   }
 
   /** Render drawable items of this layer in local rendering context and then compose them on target layer */
   render(target: CanvasRenderingContext2D) {
     // clear this layer for redraw
-    this.renderingContext.clearRect(0, 0, this.renderingContext.canvas.width, this.renderingContext.canvas.height);
+    this.renderingContext.clearRect(0, 0, this.scale.x, this.scale.y);
     // render all the drawable items
     this.drawables.forEach((item) => item.render(this.renderingContext));
     // compose this layer on the target layer
-    target.drawImage(this.renderingContext.canvas, this.width, this.height);
+    target.drawImage(this.renderingContext.canvas, this.scale.x, this.scale.y);
   }
 
   /** Sort layer items by their order */

@@ -36,7 +36,7 @@ export interface IComponentMap {
 }
 
 export interface IStateHooks {
-  /** Called once to setup this atom */
+  /** Called once when attaching atom to a scene */
   setup(): void;
 
   /** Called in each frame to update state of atom */
@@ -116,6 +116,9 @@ export interface IRenderer {
   render(context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D): void;
 }
 
+/** User friendly key names to internal key code mapping */
+export type InputKeymap = Record<string, string>;
+
 export type Config = {
   window: {
     title: string;
@@ -124,6 +127,19 @@ export type Config = {
     backgroundColor: string;
   };
   physics: { collider: string };
+  keymap: InputKeymap;
 };
 
-export type InputKeyMap = Record<string, string>;
+export type Context = {
+  /** Rendering context */
+  renderingContext: CanvasRenderingContext2D;
+
+  /** Audio output context */
+  audioContext: AudioContext;
+
+  /** System configurations */
+  config: Config;
+
+  /** User data */
+  store: Record<string, unknown>;
+};

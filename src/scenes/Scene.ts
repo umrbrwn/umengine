@@ -1,29 +1,30 @@
-import { IAtom } from '../../types';
-import { SpriteRenderer } from '../components';
-import { Context } from '../../world';
-import { createCollisionSystem, Collision } from '../../physics';
-import LayerManager from './LayerManager';
+import { IAtom, Context } from '../types';
+import { LayerManager } from './LayerManager';
+import { createCollider, Collider } from '../physics';
+import { SpriteRenderer } from '../core';
 
 /** Scene that is run on collection of atoms */
-export default class Scene {
+export class Scene {
   /** Organize layers and their ordering */
   readonly layerManager: LayerManager;
 
   /** Collision system */
-  private readonly collision: Collision;
+  private readonly collider: Collider;
 
   /** All the atoms loaded in the scene */
-  private atoms: IAtom[];
+  private readonly atoms: IAtom[];
 
   constructor(
     /** Name used to identify in the SceneManager */
     readonly name: string,
 
-    /** Used to render scene and its layers in the main view */
+    /** Scene context */
     readonly context: Context,
   ) {
-    this.layerManager = new LayerManager(context.config);
-    this.collision = createCollisionSystem(context.config.physics.collider, context)!;
+    const { config } = context;
+    const scale = { x: config.window.width, y: config.window.height };
+    this.layerManager = new LayerManager(scale);
+    this.collider = createCollider(config.physics.collider, context)!;
     this.atoms = [];
   }
 
@@ -43,7 +44,7 @@ export default class Scene {
 
     const hasCollider = atom.components.query((component) => component.name.endsWith('Collider'));
     if (hasCollider?.length) {
-      this.collision.addBody(atom);
+      this.collider.addBody(atom);
     }
 
     this.atoms.push(atom);
@@ -52,7 +53,7 @@ export default class Scene {
 
   /** Update state of all physics bodies */
   private updatePhysics() {
-    this.collision?.test();
+    this.collider?.test();
   }
 
   /** Update all atoms game logic */
@@ -63,16 +64,12 @@ export default class Scene {
 
   /** Render scene layers and compose them in the main renderer */
   private render() {
-    // do the depth sorting of renderable objects
-    // this.layerManager.layers.forEach((layer) => layer.sortDepth());
+    // sort layer items
+    this.layerManager.layers.forEach((layer) => layer.sortDepth());
+    const { renderingContext } = this.context;
     // clear the main rendering canvas
-    this.context.renderingContext.clearRect(
-      0,
-      0,
-      this.context.renderingContext.canvas.width,
-      this.context.renderingContext.canvas.height,
-    );
+    renderingContext.clearRect(0, 0, renderingContext.canvas.width, renderingContext.canvas.height);
     // compose all the layers
-    this.layerManager.layers.forEach((layer) => layer.render(this.context.renderingContext));
+    this.layerManager.layers.forEach((layer) => layer.render(renderingContext));
   }
 }
