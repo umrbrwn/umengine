@@ -31,7 +31,7 @@ export class Layer implements IRenderer {
     // render all the drawable items
     this.drawables.forEach((item) => item.render(this.renderingContext));
     // compose this layer on the target layer
-    target.drawImage(this.renderingContext.canvas, this.scale.x, this.scale.y);
+    target.drawImage(this.renderingContext.canvas, 0, 0);
   }
 
   /** Sort layer items by their order */

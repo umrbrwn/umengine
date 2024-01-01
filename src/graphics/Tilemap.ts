@@ -23,7 +23,9 @@ export class Tilemap {
    * @param height tile height, uses default height if not provided
    */
   async slice(name: string, x: number, y: number, width: number = this.width, height: number = this.height) {
-    return createImageBitmap(this.tileset, x, y, width, height).then((tile) => {
+    const sliceStartX = (x - 1) * width;
+    const sliceStartY = (y - 1) * height;
+    return createImageBitmap(this.tileset, sliceStartX, sliceStartY, width, height).then((tile) => {
       this.map.set(name, tile);
     });
   }
