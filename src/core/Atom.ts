@@ -27,7 +27,7 @@ export class Atom implements IAtom {
     this.layer = 'default';
   }
 
-  setup(): void {}
+  init(): void {}
 
   update(): void {}
 

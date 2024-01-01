@@ -37,7 +37,7 @@ export interface IComponentMap {
 
 export interface IStateHooks {
   /** Called once when attaching atom to a scene */
-  setup(): void;
+  init(): void;
 
   /** Called in each frame to update state of atom */
   update(): void;

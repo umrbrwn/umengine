@@ -48,7 +48,7 @@ export class Scene {
     }
 
     this.atoms.push(atom);
-    atom.setup();
+    atom.init();
   }
 
   /** Update state of all physics bodies */

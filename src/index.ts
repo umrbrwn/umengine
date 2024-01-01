@@ -11,7 +11,7 @@ export * as utils from './utils';
 let sceneManager: SceneManager | null = null;
 
 type Options = { configPath?: string; config?: Partial<Config> };
-export async function setup(canvas: HTMLCanvasElement, options?: Options) {
+export async function init(canvas: HTMLCanvasElement, options?: Options) {
   // load configurations
   const config = await loadConfig(options?.configPath, options?.config);
 
