@@ -1,8 +1,8 @@
 import { IComponent, ICircle, Vector, IAtom } from '../../types';
-import Vector2H from '../maths/Vector2H';
+import { Vector2H } from '../maths';
 
 /** Circle collider component */
-export default class CircleCollider implements IComponent, ICircle {
+export class CircleCollider implements IComponent, ICircle {
   readonly name: string;
   enabled: boolean;
 

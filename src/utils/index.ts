@@ -1,3 +1,1 @@
-import * as loaders from './loaders';
-
-export default { loaders };
+export * as loaders from './loaders';

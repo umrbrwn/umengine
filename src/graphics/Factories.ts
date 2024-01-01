@@ -63,13 +63,16 @@ export async function createPattern(
   patternWidth: number,
   patternHeight: number,
 ) {
-  return createImageBitmap(tileset, x, y, width, height).then((tile) => {
+  const tileStartX = (x - 1) * width;
+  const tileStartY = (y - 1) * height;
+  return createImageBitmap(tileset, tileStartX, tileStartY, width, height).then((tile) => {
     const buffer = new OffscreenCanvas(patternWidth, patternHeight);
     const ctx = buffer.getContext('2d')!;
-    ctx.rect(0, 0, width, height);
+    // ctx.rect(0, 0, width, height);
     ctx.fillStyle = ctx.createPattern(tile, 'repeat')!;
-    ctx.fill();
-    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, patternWidth, patternHeight);
+    // ctx.fill();
+    // ctx.fillStyle = '#000';
     return createImageBitmap(ctx.getImageData(0, 0, patternWidth, patternHeight));
   });
 }

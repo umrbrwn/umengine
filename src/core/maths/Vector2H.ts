@@ -1,7 +1,7 @@
 import { Vector } from '../../types';
 
 /** 2D Vector math helper */
-export default abstract class Vector2H {
+export abstract class Vector2H {
   /** Divide two vectors */
   static div(u: Vector, v: Vector): Vector {
     return { x: u.x / v.x, y: u.y / v.y };

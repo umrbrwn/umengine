@@ -1,5 +1,5 @@
 /** Timer to control the execution flow */
-export default class Timer {
+export class Timer {
   update: Function;
 
   // TODO: check if deltaTime can be non-static

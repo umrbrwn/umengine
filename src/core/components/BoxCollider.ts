@@ -1,8 +1,8 @@
 import { IComponent, IRectangle, Vector, IAtom } from '../../types';
-import Vector2H from '../maths/Vector2H';
+import { Vector2H } from '../maths';
 
 /** Box collider component */
-export default class BoxCollider implements IComponent, IRectangle {
+export class BoxCollider implements IComponent, IRectangle {
   readonly name: string;
   enabled: boolean;
 

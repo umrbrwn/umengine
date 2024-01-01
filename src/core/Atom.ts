@@ -2,12 +2,12 @@
 /* eslint-disable class-methods-use-this */
 
 import { IAtom, Vector, IComponentMap } from '../types';
-import ComponentMap from './components/ComponentMap';
-import Vector2H from './maths/Vector2H';
+import { ComponentMap } from './components/ComponentMap';
+import { Vector2H } from './maths';
 
 const generateRandomId = () => `${Math.floor((Math.random() * 1) ^ 6).toString(36)}${Date.now().toString(36)}`;
 
-export default class Atom implements IAtom {
+export class Atom implements IAtom {
   readonly id: string;
   name: string;
   tag?: any;

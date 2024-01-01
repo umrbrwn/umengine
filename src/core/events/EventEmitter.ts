@@ -1,7 +1,7 @@
 type EventListener = (event: any) => void;
 type EventListeners = Map<number, EventListener>;
 
-export default class EventEmitter {
+export class EventEmitter {
   /**
    * List of events and their listeners, each event has a unique
    * name which can have more than one listeners

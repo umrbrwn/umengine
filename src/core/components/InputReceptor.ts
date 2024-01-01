@@ -1,7 +1,7 @@
 import { IComponent, IAtom } from '../../types';
 
 /** Input receptor that buffers inputs */
-export default class InputReceptor implements IComponent, IComponent {
+export class InputReceptor implements IComponent {
   readonly name: string;
   enabled: boolean;
 
@@ -72,7 +72,7 @@ export default class InputReceptor implements IComponent, IComponent {
    * and negative integer for motion in upward and right side direction.
    * Returns 0 when there is no motion on the provided axis.
    */
-  getMotion(axis: string) {
+  getMotion(axis: 'X' | 'Y') {
     if (axis === 'X') {
       if (this.get('A') || this.get('LEFT')) {
         return -1;

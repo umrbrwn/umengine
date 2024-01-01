@@ -2,7 +2,7 @@ import { IComponent, IRenderer, IAtom } from '../../types';
 import eventEmitter from '../events';
 
 /** Sprite rendering component */
-export default class SpriteRenderer implements IComponent, IRenderer {
+export class SpriteRenderer implements IComponent, IRenderer {
   name: string;
   enabled: boolean;
 

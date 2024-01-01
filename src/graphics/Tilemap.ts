@@ -1,7 +1,7 @@
 /** Structured tileset created from a tileset image
  * @example Named collection of graphics like trees, player, grass etc. created from one image tileset
  */
-export default class Tilemap {
+export class Tilemap {
   /** Named collection of tiles sliced from the tileset */
   private readonly map = new Map<string, ImageBitmap>();
 

@@ -1,3 +1,1 @@
-import InputBridge from './InputBridge';
-
-export { InputBridge };
+export * from './InputManager';
