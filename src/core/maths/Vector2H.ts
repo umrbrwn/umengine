@@ -57,4 +57,8 @@ export abstract class Vector2H {
   static zero() {
     return { x: 0, y: 0 };
   }
+
+  static toString(u: Vector) {
+    return `${u.x},${u.y}`;
+  }
 }
