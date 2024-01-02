@@ -1,16 +1,17 @@
 import { IAtom } from '../../types';
 
-export function GetCollisionId(body: IAtom, other: IAtom) {
-  return [`${body.id}:${other.id}`, `${other.id}:${body.id}`];
-}
+export const GetCollisionKey = (body: IAtom, other: IAtom) => `${body.id}:${other.id}`;
 
 /** Collision testing base type */
 export abstract class Collider {
   /** Bodies present in this collision system */
   protected bodies: IAtom[] = [];
 
-  /** Bodies that currently in a collision */
-  protected colliding = new Set<string>();
+  /** Collision cache to prevent redundant testing */
+  protected cache = new Set<string>();
+
+  /** Bodies that are currently colliding */
+  private colliding = new Set<string>();
 
   /** Test collision on the bodies */
   abstract test(): void;
@@ -32,14 +33,19 @@ export abstract class Collider {
    * @param hit are both of the bodies colliding
    */
   respond(body: IAtom, other: IAtom, hit: boolean) {
-    const [id, revId] = GetCollisionId(body, other);
+    const key = GetCollisionKey(body, other);
+    this.cache.add(key);
     if (hit) {
-      this.colliding.add(id).add(revId);
+      // track that these bodies are colliding
+      this.colliding.add(key);
+      // notify both bodies that they are colliding
       other.collision(body);
       body.collision(other);
-    } else if (this.colliding.has(id) || this.colliding.has(revId)) {
-      this.colliding.delete(id);
-      this.colliding.delete(revId);
+    } else if (this.colliding.has(key)) {
+      // clear collision tracking and invalidate cache
+      this.colliding.delete(key);
+      this.cache.delete(key);
+      // notify both bodies that their collision has ended
       other.collisionEnd(body);
       body.collisionEnd(other);
     }

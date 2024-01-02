@@ -27,7 +27,7 @@ export class Scene {
   ) {
     const { config } = context;
     this.layerManager = new LayerManager({ x: config.window.width, y: config.window.height });
-    this.collider = createCollider(config.physics.collider, context)!;
+    this.collider = createCollider(config.physics.collider, config)!;
     this.inputController = new InputController(context.renderingContext.canvas, config.keymap);
     this.atoms = [];
   }

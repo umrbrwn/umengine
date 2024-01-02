@@ -1,5 +1,5 @@
-import { IAtom, Context } from '../../types';
-import { Collider, GetCollisionId } from './Collider';
+import { IAtom, Config } from '../../types';
+import { Collider, GetCollisionKey } from './Collider';
 import { QuadTree } from './QuadTree';
 import { BoundingBox } from './BoundingBox';
 import { testCollision } from './CollisionTest';
@@ -8,14 +8,9 @@ import { testCollision } from './CollisionTest';
 export default class SpatialCollider extends Collider {
   private tree: QuadTree<IAtom>;
 
-  constructor(context: Context) {
+  constructor({ window }: Config) {
     super();
-    this.tree = new QuadTree({
-      x: 0,
-      y: 0,
-      width: context.config.window.width,
-      height: context.config.window.height,
-    } as BoundingBox);
+    this.tree = new QuadTree(new BoundingBox(0, 0, window.width, window.height));
   }
 
   /** Update the state of the tree and perform collision testing */
@@ -25,12 +20,15 @@ export default class SpatialCollider extends Collider {
 
     this.bodies.forEach((body) => {
       const candidates = this.tree.fetch(body);
+
+      // exclude body, we don't need to test body against itself
+      candidates.splice(candidates.indexOf(body), 1);
+
       candidates.forEach((candidate) => {
-        if (this.colliding.has(GetCollisionId(body, candidate)[0])) {
+        // if body and candidate are already tested, don't need to test the other way around
+        if (this.cache.has(GetCollisionKey(candidate, body))) {
           return;
         }
-
-        // any body can have more than 1 type of colliders so each has to be tested
         const result = testCollision(body, candidate);
         this.respond(body, candidate, result);
       });

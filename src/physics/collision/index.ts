@@ -1,13 +1,13 @@
-import { Context } from '../../types';
+import { Config } from '../../types';
 import SpatialCollider from './SpatialCollider';
 
 export * from './Collider';
 
 /** Factory to create collision system */
-export function createCollider(name: string, context: Context) {
+export function createCollider(name: string, config: Config) {
   switch (name) {
     case 'spatial':
-      return new SpatialCollider(context);
+      return new SpatialCollider(config);
     default:
       throw new Error(`Collider "${name}" not found.`);
   }

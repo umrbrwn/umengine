@@ -53,7 +53,7 @@ function testAABB(rect1: IRectangle, rect2: IRectangle) {
     rect1.topLeft.x <= rect2.topEdge.terminal.x &&
     rect1.topEdge.terminal.x >= rect2.topLeft.x &&
     rect1.topLeft.y <= rect2.bottomEdge.initial.y &&
-    rect1.bottomEdge.initial.y >= rect2.topLeft.y
+    rect1.bottomEdge.terminal.y >= rect2.topLeft.y
   );
 }
 
@@ -68,7 +68,7 @@ function testCircleCollision(circle1: ICircle, circle2: ICircle) {
 
 /** Test collision between two atoms */
 export function testCollision(body: IAtom, other: IAtom) {
-  if (body !== other) {
+  if (body === other) {
     return false;
   }
 

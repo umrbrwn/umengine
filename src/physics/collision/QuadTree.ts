@@ -29,7 +29,7 @@ export class QuadTree<T extends ITransform> {
    * Check the quadrants that the item is touching. Having more than 1 incides
    * means item does not fit fully in a single quadrant or touches the boundary
    * of next quadrant
-   * @param item item to check what quadrants it is touching
+   * @param item to check what quadrants it is touching
    */
   getIndices(item: T) {
     const { position, scale } = item;
@@ -92,10 +92,7 @@ export class QuadTree<T extends ITransform> {
     }
   }
 
-  /**
-   * Fetch all items from the quadrants that the item is touching
-   * @param item item to get indices for
-   */
+  /** Fetch all items from the quadrants that the item is touching, including provided item */
   fetch(item: T | null) {
     if (typeof item === 'undefined' || item === null) {
       return [];
@@ -134,10 +131,7 @@ export class QuadTree<T extends ITransform> {
     ];
   }
 
-  /**
-   * Insert item in the nodes that it is touching
-   * @param item item to insert in nodes of the tree
-   */
+  /** Insert item in the nodes that it is touching */
   private insertInNodes(item: T) {
     const indices = this.getIndices(item);
     for (let i = 0; i < indices.length; i++) {
