@@ -5,10 +5,11 @@ import { IAtom, Vector, IComponentMap } from '../types';
 import { ComponentMap } from './components/ComponentMap';
 import { Vector2H } from './maths';
 
-const generateRandomId = () => `${Math.floor((Math.random() * 1) ^ 6).toString(36)}${Date.now().toString(36)}`;
+let counter = Number.MIN_SAFE_INTEGER;
+const generateId = () => ++counter;
 
 export class Atom implements IAtom {
-  readonly id: string;
+  readonly id: number;
   name: string;
   tag?: any;
   position: Vector;
@@ -18,7 +19,7 @@ export class Atom implements IAtom {
   layer: string;
 
   constructor(name: string) {
-    this.id = generateRandomId();
+    this.id = generateId();
     this.name = name;
     this.position = Vector2H.zero();
     this.scale = { x: 1, y: 1 };

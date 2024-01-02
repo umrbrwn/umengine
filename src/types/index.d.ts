@@ -57,7 +57,7 @@ export interface IPhysicsHooks {
 /** Basic building block of the game engine. */
 export interface IAtom extends ITransform, ILifecycleHooks, IPhysicsHooks {
   /** Unique id */
-  readonly id: string;
+  readonly id: number;
 
   /** Friendly name */
   name: string;
