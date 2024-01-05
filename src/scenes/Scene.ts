@@ -61,6 +61,22 @@ export class Scene {
     atom.init();
   }
 
+  /** Remove atom from the scene */
+  removeItem(atom: IAtom) {
+    // remove from layer
+    const spriteRenderer = atom.components.get<SpriteRenderer>(SpriteRenderer.name);
+    this.layerComposer.removeItem(spriteRenderer, atom.layer);
+
+    // remove from colliders
+    this.collider.removeBody(atom);
+
+    // remove from scene
+    const index = this.atoms.indexOf(atom) || -1;
+    if (index > -1) {
+      this.atoms.splice(index, 1);
+    }
+  }
+
   /** Update state of all physics bodies */
   private updatePhysics() {
     this.collider?.test();

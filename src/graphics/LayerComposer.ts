@@ -81,6 +81,19 @@ export class LayerComposer {
     return layerExists;
   }
 
+  /**
+   * Remove renderable item from layer
+   * @param item renderable item
+   * @param name target layer name
+   */
+  removeItem(item: IRenderable, name: string) {
+    const layer = this.layers.find((l) => l.name === name);
+    const index = layer?.items.indexOf(item) || -1;
+    if (layer && index > -1) {
+      layer.items.splice(index, 1);
+    }
+  }
+
   /** Compose layers in the order */
   render() {
     // sort layer items

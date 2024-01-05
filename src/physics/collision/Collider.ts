@@ -21,6 +21,12 @@ export abstract class Collider {
     this.bodies.push(body);
   }
 
+  /** Remove body from collision system */
+  removeBody(body: IAtom) {
+    const index = this.bodies.findIndex((b) => b.id === body.id) || -1;
+    this.bodies.splice(index, 1);
+  }
+
   /** Remove all the bodies from the collision system */
   clear() {
     this.bodies.length = 0;
