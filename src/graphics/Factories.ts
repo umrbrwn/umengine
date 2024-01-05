@@ -16,26 +16,13 @@ export function createHiDPICanvas(width = 640, height = 640, canvasElement?: HTM
     throw new Error('2D context is not supported.');
   }
 
-  // Determine correct pixel ratio of the device screen
-  const ratio = (() => {
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    const ctx = context as any;
-    const backingStoreRatio =
-      ctx.webkitBackingStorePixelRatio ||
-      ctx.mozBackingStorePixelRatio ||
-      ctx.msBackingStorePixelRatio ||
-      ctx.oBackingStorePixelRatio ||
-      ctx.backingStorePixelRatio ||
-      1;
-    return devicePixelRatio / backingStoreRatio;
-  })();
+  const ratio = window.devicePixelRatio;
 
   // scale the canvas with the pixel ratio
   canvas.width = width * ratio;
   canvas.height = height * ratio;
 
   // fit the canvas into the original size
-
   canvas.style.width = `${width}px`;
   canvas.style.height = `${height}px`;
 

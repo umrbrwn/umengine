@@ -1,8 +1,8 @@
-import { IComponent, IRenderer, IAtom } from '../../types';
+import { IComponent, IRenderable, IAtom } from '../../types';
 import { systemEvents } from '../events/internal';
 
 /** Sprite rendering component */
-export class SpriteRenderer implements IComponent, IRenderer {
+export class SpriteRenderer implements IComponent, IRenderable {
   name: string;
   enabled: boolean;
 

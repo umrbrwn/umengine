@@ -1,13 +1,13 @@
 import { IAtom, Context } from '../types';
-import { LayerManager } from './LayerManager';
+import { LayerComposer } from '../graphics';
 import { createCollider, Collider } from '../physics';
-import { SpriteRenderer } from '../core';
 import { InputController } from '../inputs';
+import { SpriteRenderer } from '../core';
 
 /** Scene that is run on collection of atoms */
 export class Scene {
   /** Organize layers and their ordering */
-  readonly layerManager: LayerManager;
+  readonly layerComposer: LayerComposer;
 
   /** User input controller */
   readonly inputController: InputController;
@@ -26,36 +26,37 @@ export class Scene {
     readonly context: Context,
   ) {
     const { config } = context;
-    this.layerManager = new LayerManager({ x: config.window.width, y: config.window.height });
+    this.layerComposer = new LayerComposer(this.context);
     this.collider = createCollider(config.physics.collider, config)!;
     this.inputController = new InputController(context.renderingContext.canvas, config.keymap);
     this.atoms = [];
   }
 
-  /** Run once every frame */
+  /** Runs once every frame */
   update() {
     this.updatePhysics();
     this.updateGameLogic();
     this.render();
   }
 
-  /** Run once after updating every frame */
+  /** Runs once after updating every frame */
   postUpdate() {
     this.inputController.postUpdate();
   }
 
   /** Add an atom to the scene */
   addItem(atom: IAtom) {
+    // add to layer
     const renderer = atom.components.get<SpriteRenderer>(SpriteRenderer.name);
     if (atom.layer && renderer) {
-      this.layerManager.addItem(renderer, atom.layer);
+      this.layerComposer.addItem(renderer, atom.layer);
     }
-
+    // add to collider
     const hasCollider = atom.components.query((component) => component.name.endsWith('Collider'));
     if (hasCollider?.length) {
       this.collider.addBody(atom);
     }
-
+    // add to scene
     this.atoms.push(atom);
     atom.init();
   }
@@ -71,14 +72,7 @@ export class Scene {
     this.atoms.forEach((atom) => atom.postUpdate());
   }
 
-  /** Render scene layers and compose them in the main renderer */
   private render() {
-    // sort layer items
-    this.layerManager.layers.forEach((layer) => layer.sortDepth());
-    const { renderingContext } = this.context;
-    // clear the main rendering canvas
-    renderingContext.clearRect(0, 0, renderingContext.canvas.width, renderingContext.canvas.height);
-    // compose all the layers
-    this.layerManager.layers.forEach((layer) => layer.render(renderingContext));
+    this.layerComposer.render();
   }
 }

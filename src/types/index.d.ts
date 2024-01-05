@@ -63,7 +63,7 @@ export interface IAtom extends ITransform, ILifecycleHooks, IPhysicsHooks {
   name: string;
 
   /** Tag anything */
-  tag?: any;
+  tag?: string | number;
 
   /** Collection of components making up this atom */
   components: IComponentMap;
@@ -108,11 +108,11 @@ export interface IRectangle {
   leftEdge: StraightLine;
 }
 
-export interface IRenderer {
+export interface IRenderable {
   /** Order in which this renderer will work */
   order: number;
 
-  /** Renders any drawable item on the given context */
+  /** Render any drawable item on the given context */
   render(context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D): void;
 }
 

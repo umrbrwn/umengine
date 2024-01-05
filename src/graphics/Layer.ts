@@ -1,14 +1,14 @@
-import { IRenderer, Vector } from '../types';
+import { IRenderable, Vector } from '../types';
 
 /** Composer layer */
-export class Layer implements IRenderer {
-  /** Order in which this layer is rendered on the composer */
+export class Layer implements IRenderable {
+  /** Order in which the composer renders this layer */
   order = -1;
 
-  /** Drawable items added to this layer */
-  drawables: IRenderer[] = [];
+  /** Renderable items */
+  items: IRenderable[] = [];
 
-  /** Flags that a depth sort operation on this layer is needed */
+  /** Flags that items need to be sorted */
   pendingDepthSort = false;
 
   /** Local rendering context */
@@ -18,26 +18,26 @@ export class Layer implements IRenderer {
     /** Layer name */
     readonly name: string,
 
-    /** Size of layer */
+    /** Layer size, normally scale up to full canvas size */
     readonly scale: Vector,
   ) {
     this.renderingContext = new OffscreenCanvas(scale.x, scale.y).getContext('2d')!;
   }
 
-  /** Render drawable items of this layer in local rendering context and then compose them on target layer */
+  /** Render items in locally, and then compose them on target layer */
   render(target: CanvasRenderingContext2D) {
     // clear this layer for redraw
     this.renderingContext.clearRect(0, 0, this.scale.x, this.scale.y);
-    // render all the drawable items
-    this.drawables.forEach((item) => item.render(this.renderingContext));
+    // render all items
+    this.items.forEach((item) => item.render(this.renderingContext));
     // compose this layer on the target layer
     target.drawImage(this.renderingContext.canvas, 0, 0);
   }
 
   /** Sort layer items by their order */
   sortDepth() {
-    if (this.pendingDepthSort && this.drawables.length) {
-      this.drawables.sort((curr, next) => curr.order - next.order);
+    if (this.pendingDepthSort && this.items.length) {
+      this.items.sort((curr, next) => curr.order - next.order);
     }
     this.pendingDepthSort = false;
   }
