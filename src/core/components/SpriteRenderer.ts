@@ -40,6 +40,8 @@ export class SpriteRenderer implements IComponent, IRenderable {
 
   /** Renders the sprite */
   render(context: OffscreenCanvasRenderingContext2D) {
-    context.drawImage(this.sprite, this.atom.position.x, this.atom.position.y);
+    if (this.enabled) {
+      context.drawImage(this.sprite, this.atom.position.x, this.atom.position.y);
+    }
   }
 }

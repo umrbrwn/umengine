@@ -74,26 +74,17 @@ export function testCollision(body: IAtom, other: IAtom) {
 
   const bodyBox = body.components.get<BoxCollider>(BoxCollider.name);
   const bodyCircle = body.components.get<CircleCollider>(CircleCollider.name);
-
-  if (!(bodyBox?.enabled || bodyCircle?.enabled)) {
-    return false;
-  }
-
   const otherBox = other.components.get<BoxCollider>(BoxCollider.name);
   const otherCircle = other.components.get<CircleCollider>(CircleCollider.name);
 
-  if (!(otherBox?.enabled || otherCircle?.enabled)) {
-    return false;
-  }
-
   let hit = false;
-  if (bodyBox && otherBox) {
+  if (bodyBox?.enabled && otherBox?.enabled) {
     hit = testAABB(bodyBox, otherBox);
-  } else if (bodyCircle && otherCircle) {
+  } else if (bodyCircle?.enabled && otherCircle?.enabled) {
     hit = testCircleCollision(bodyCircle, otherCircle);
-  } else if (bodyBox && otherCircle) {
+  } else if (bodyBox?.enabled && otherCircle?.enabled) {
     hit = intersectCircleToRectangle(otherCircle, bodyBox);
-  } else if (bodyCircle && otherBox) {
+  } else if (bodyCircle?.enabled && otherBox?.enabled) {
     hit = intersectCircleToRectangle(bodyCircle, otherBox);
   }
   return hit;
