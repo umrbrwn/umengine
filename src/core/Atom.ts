@@ -23,7 +23,7 @@ export class Atom implements IAtom {
     this.name = name;
     this.position = Vector2H.zero();
     this.scale = { x: 1, y: 1 };
-    this.components = new ComponentMap();
+    this.components = new ComponentMap(this);
     this.data = {};
     this.layer = 'default';
   }

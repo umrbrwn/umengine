@@ -1,8 +1,9 @@
-import { IAtom, Context } from '../types';
+import { IAtom, Context, IComponent } from '../types';
 import { LayerComposer } from '../graphics';
 import { createCollider, Collider } from '../physics';
 import { InputController } from '../inputs';
-import { SpriteRenderer } from '../core';
+import { Sprite } from '../core';
+import { systemEvents } from '../core/events/internal';
 
 /** Scene that is run on collection of atoms */
 export class Scene {
@@ -30,32 +31,37 @@ export class Scene {
     this.collider = createCollider(config.physics.collider, config)!;
     this.inputController = new InputController(context.renderingContext.canvas, config.keymap);
     this.atoms = [];
+
+    systemEvents.on('COMPONENT_REMOVED', (component: IComponent) => this.removeComponent(component));
   }
 
   /** Runs once every frame */
   update() {
-    this.updatePhysics();
-    this.updateGameLogic();
-    this.render();
+    this.collider?.test();
+    this.atoms.forEach((atom) => atom.update());
+    this.layerComposer.render();
   }
 
-  /** Runs once after updating every frame */
+  /** Runs once after updating frame */
   postUpdate() {
     this.inputController.postUpdate();
+    this.atoms.forEach((atom) => atom.postUpdate());
   }
 
   /** Add an atom to the scene */
   addItem(atom: IAtom) {
     // add to layer
-    const renderer = atom.components.get<SpriteRenderer>(SpriteRenderer.name);
-    if (atom.layer && renderer) {
-      this.layerComposer.addItem(renderer, atom.layer);
+    const renderable = atom.components.get<Sprite>('Sprite');
+    if (atom.layer && renderable) {
+      this.layerComposer.addItem(renderable, atom.layer);
     }
+
     // add to collider
-    const hasCollider = atom.components.query((component) => component.name.endsWith('Collider'));
-    if (hasCollider?.length) {
+    const hasCollider = atom.components.query((component) => component.name.endsWith('Collider'))?.length;
+    if (hasCollider) {
       this.collider.addBody(atom);
     }
+
     // add to scene
     this.atoms.push(atom);
     atom.init();
@@ -64,8 +70,8 @@ export class Scene {
   /** Remove atom from the scene */
   removeItem(atom: IAtom) {
     // remove from layer
-    const spriteRenderer = atom.components.get<SpriteRenderer>(SpriteRenderer.name);
-    this.layerComposer.removeItem(spriteRenderer, atom.layer);
+    const renderable = atom.components.get<Sprite>('Sprite');
+    this.layerComposer.removeItem(renderable, atom.layer);
 
     // remove from colliders
     this.collider.removeBody(atom);
@@ -77,18 +83,12 @@ export class Scene {
     }
   }
 
-  /** Update state of all physics bodies */
-  private updatePhysics() {
-    this.collider?.test();
-  }
-
-  /** Update all atoms game logic */
-  private updateGameLogic() {
-    this.atoms.forEach((atom) => atom.update());
-    this.atoms.forEach((atom) => atom.postUpdate());
-  }
-
-  private render() {
-    this.layerComposer.render();
+  /** Remove component from its manager */
+  private removeComponent(component: IComponent) {
+    if (component instanceof Sprite) {
+      this.layerComposer.removeItem(component, component.atom.layer);
+    } else if (component.name.endsWith('Collider')) {
+      this.collider.removeBody(component.atom);
+    }
   }
 }

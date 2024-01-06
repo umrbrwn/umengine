@@ -40,7 +40,7 @@ export async function init(canvas: HTMLCanvasElement, options?: Options) {
 export const scenes: SceneManager = new Proxy({} as SceneManager, {
   get(target, property, receiver) {
     if (!sceneManager) {
-      throw new Error('Initialize engine configurations before accessing scenes');
+      throw new Error('Initialize engine configurations before accessing scenes.');
     }
     return Reflect.get(sceneManager, property, receiver);
   },
@@ -49,7 +49,7 @@ export const scenes: SceneManager = new Proxy({} as SceneManager, {
 export const inputs = new Proxy({} as InputController, {
   get(target, property, receiver) {
     if (!inputController) {
-      throw new Error('Initialize engine configurations before accessing inputs');
+      throw new Error('Initialize engine configurations before accessing inputs.');
     }
     return Reflect.get(inputController, property, receiver);
   },

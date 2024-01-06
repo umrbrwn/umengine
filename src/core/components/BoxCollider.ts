@@ -1,19 +1,18 @@
-import { IComponent, IRectangle, Vector, IAtom } from '../../types';
+import { IAtom, IComponent, IRectangle, Vector } from '../../types';
 import { Vector2H } from '../maths';
 
 /** Box collider component */
 export class BoxCollider implements IComponent, IRectangle {
-  readonly name: string;
+  readonly name = BoxCollider.name;
   enabled: boolean;
 
-  /** Size of the box collider */
+  /** Size of the box collider, defaults to scale of attached atom */
   scale: Vector;
 
-  /** Offset from the position of atom */
+  /** Offset from the position of atom, defaults to zero vector */
   offset: Vector;
 
   constructor(readonly atom: IAtom) {
-    this.name = BoxCollider.name;
     this.scale = { ...atom.scale };
     this.offset = Vector2H.zero();
     this.enabled = true;

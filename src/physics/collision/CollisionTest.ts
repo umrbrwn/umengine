@@ -1,6 +1,6 @@
 import { ICircle, StraightLine, Vector, IRectangle, IAtom } from '../../types';
 import { Vector2H } from '../../core/maths';
-import { BoxCollider, CircleCollider } from '../../core/components';
+import { BoxCollider, CircleCollider } from '../../core';
 
 /**
  * Test if the given circle is intersecting with the given line.
@@ -72,10 +72,10 @@ export function testCollision(body: IAtom, other: IAtom) {
     return false;
   }
 
-  const bodyBox = body.components.get<BoxCollider>(BoxCollider.name);
-  const bodyCircle = body.components.get<CircleCollider>(CircleCollider.name);
-  const otherBox = other.components.get<BoxCollider>(BoxCollider.name);
-  const otherCircle = other.components.get<CircleCollider>(CircleCollider.name);
+  const bodyBox = body.components.get<BoxCollider>('BoxCollider');
+  const bodyCircle = body.components.get<CircleCollider>('CircleCollider');
+  const otherBox = other.components.get<BoxCollider>('BoxCollider');
+  const otherCircle = other.components.get<CircleCollider>('CircleCollider');
 
   let hit = false;
   if (bodyBox?.enabled && otherBox?.enabled) {

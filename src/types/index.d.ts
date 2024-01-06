@@ -8,28 +8,33 @@ export interface ITransform {
   scale: Vector;
 }
 
-/** Component that extends functionality of atom */
+/** Component type to extends an atom's functionality */
 export interface IComponent {
   /** Deriving component types must define a unique component name */
   readonly name: string;
 
-  /** Target object to which component is attached */
-  readonly atom: IAtom;
+  /** Atom to which the component is attached */
+  atom: IAtom;
 
   /** Is component enable */
   enabled: boolean;
+
+  /** Called once when attached to an atom, to initialize default values with respect to attached atom */
+  // init(): void;
 }
+
+type ComponentType = 'BoxCollider' | 'CircleCollider' | 'FixedBody' | 'Sprite';
 
 /** Component collection */
 export interface IComponentMap {
   /** Add component to the atom */
-  add(component: IComponent): void;
+  add<T extends IComponent>(component: ComponentType): T;
 
   /** Remove component from the atom */
-  remove(name: string): void;
+  remove(name: ComponentType): void;
 
   /** Get component by name */
-  get<T extends IComponent>(name: string): T;
+  get<T extends IComponent>(name: ComponentType): T;
 
   /** Query components matching a criteria */
   query(predicate: (component: IComponent) => boolean): IComponent[];

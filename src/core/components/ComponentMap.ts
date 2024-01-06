@@ -1,25 +1,38 @@
-import { IComponentMap, IComponent } from '../../types';
+import { IComponentMap, IComponent, IAtom, ComponentType } from '../../types';
+import * as Components from '.';
+import { systemEvents } from '../events/internal';
 
 /** @internal */
 export class ComponentMap implements IComponentMap {
   private readonly map: Map<string, IComponent>;
 
-  constructor() {
+  constructor(private readonly atom: IAtom) {
     this.map = new Map<string, IComponent>();
   }
 
-  add(component: IComponent): void {
-    if (this.map.has(component.name)) {
-      throw new Error(`"${component.name}" component already exists.`);
+  add<T extends IComponent>(name: ComponentType): T {
+    if (this.map.has(name)) {
+      throw new Error(`${name} component already exists.`);
     }
-    this.map.set(component.name, component);
+    const type = Components[name];
+    if (!type) {
+      throw new Error(`${name} is not a valid component type.`);
+    }
+    // eslint-disable-next-line new-cap
+    const component = new type(this.atom);
+    this.map.set(name, component);
+    return component as T;
   }
 
-  remove(name: string): void {
-    this.map.delete(name);
+  remove(name: ComponentType): void {
+    const component = this.get(name);
+    if (component) {
+      systemEvents.emit('COMPONENT_REMOVED', component);
+      this.map.delete(name);
+    }
   }
 
-  get<T extends IComponent>(name: string): T {
+  get<T extends IComponent>(name: ComponentType): T {
     return this.map.get(name) as T;
   }
 

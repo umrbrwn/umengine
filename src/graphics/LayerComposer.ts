@@ -10,7 +10,7 @@ export class LayerComposer {
   constructor(readonly context: Context) {
     this.add('default');
     // when a renderable item reorders itself, the layer that contains the item should reorder its items
-    systemEvents.on('RENDERER_DEPTH_CHANGED', (layerName: string) => {
+    systemEvents.on('RENDERING_ORDER_CHANGED', (layerName: string) => {
       const layer = this.get(layerName);
       if (layer) {
         layer.pendingDepthSort = true;
@@ -78,7 +78,6 @@ export class LayerComposer {
       }
       layer.items.push(item);
     }
-    return layerExists;
   }
 
   /**
