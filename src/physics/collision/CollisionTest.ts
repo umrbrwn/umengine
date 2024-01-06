@@ -72,6 +72,10 @@ export function testCollision(body: IAtom, other: IAtom) {
     return false;
   }
 
+  if (body.components.get('FixedBody') && other.components.get('FixedBody')) {
+    return false;
+  }
+
   const bodyBox = body.components.get<BoxCollider>('BoxCollider');
   const bodyCircle = body.components.get<CircleCollider>('CircleCollider');
   const otherBox = other.components.get<BoxCollider>('BoxCollider');
